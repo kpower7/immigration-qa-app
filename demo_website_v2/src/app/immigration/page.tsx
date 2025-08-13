@@ -44,7 +44,7 @@ export default function ImmigrationPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [sessionId] = useState<string>(() => (globalThis.crypto?.randomUUID?.() || `sess_${Math.random().toString(36).slice(2)}`));
   const [events, setEvents] = useState<UIEvent[]>([]);
-  const [polling, setPolling] = useState<boolean>(false);
+  const [polling, setPolling] = useState<boolean>(true);
 
   // Helper: fetch UI feed once
   const refreshFeed = useCallback(async () => {
@@ -111,6 +111,46 @@ export default function ImmigrationPage() {
       if (timer) clearInterval(timer);
     };
   }, [sessionId, polling]);
+
+  // Ensure ElevenLabs widget is inside our chat container and not floating
+  useEffect(() => {
+    let raf: number | undefined;
+    const placeWidget = () => {
+      const container = document.getElementById("my-chat-container");
+      if (!container) {
+        raf = requestAnimationFrame(placeWidget);
+        return;
+      }
+      // Prefer inline element inside the container
+      const inline = container.querySelector("elevenlabs-convai, elevenlabs-conversational-ai") as HTMLElement | null;
+      if (inline) {
+        inline.style.position = "relative";
+        inline.style.bottom = "";
+        inline.style.right = "";
+        inline.style.margin = "0";
+        inline.style.width = "100%";
+        inline.style.height = "100%";
+        return; // Already in place
+      }
+      // Fallback: grab any existing floating instance and move it into the container
+      const floating = document.querySelector("elevenlabs-convai, elevenlabs-conversational-ai") as HTMLElement | null;
+      if (floating && !container.contains(floating)) {
+        floating.style.position = "relative";
+        floating.style.bottom = "";
+        floating.style.right = "";
+        floating.style.margin = "0";
+        floating.style.width = "100%";
+        floating.style.height = "100%";
+        container.appendChild(floating);
+        return;
+      }
+      raf = requestAnimationFrame(placeWidget);
+    };
+    raf = requestAnimationFrame(placeWidget);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [agentId]);
 
   const parsed = useMemo(() => {
     // Normalize events by type for rendering
@@ -201,25 +241,11 @@ export default function ImmigrationPage() {
               <li>Section-level citations and links</li>
             </ul>
           </section>
-          {/* Quick demo actions to trigger tools and refresh UI without polling */}
-          <section className="grid md:grid-cols-2 gap-6">
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Try it now</h3>
-              <div className="flex flex-col gap-3">
-                <button
-                  className="px-3 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-sm"
-                  onClick={() => callImmigrationNews("OPT updates in last 2 weeks")}
-                >
-                  Fetch recent OPT news
-                </button>
-                <button
-                  className="px-3 py-2 rounded border border-cyan-600 text-cyan-300 hover:bg-cyan-900/30 text-sm"
-                  onClick={() => callFormsFinder("I-765")}
-                >
-                  Find Form I-765 links
-                </button>
-                <p className="text-xs text-gray-500">Buttons call Netlify tool functions with your session ID and refresh the Context panel once.</p>
-              </div>
+          {/* Removed quick demo and tips boxes for a cleaner layout */}
+          {/* ElevenLabs chat widget */}
+          <div className="card p-0 overflow-hidden">
+            <div className="px-6 py-4 border-b border-blue-500/20">
+              <h3 className="text-lg font-semibold text-cyan-300">Chat</h3>
             </div>
             <div className="card p-6">
               <h3 className="text-lg font-semibold text-cyan-300 mb-2">Tips</h3>
@@ -255,7 +281,7 @@ export default function ImmigrationPage() {
           </div>
         </div>
         {/* Right: Context sidebar reacting to UI events */}
-        <aside className="lg:col-span-1 space-y-6">
+        <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 self-start">
           <div className="card p-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-cyan-300">Context</h3>
