@@ -4,6 +4,41 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Script from "next/script";
 
+// Types for UI events and payloads mirrored from backend `UIAction` model
+type FormPayload = {
+  form_id?: string;
+  page_url?: string;
+  instructions_url?: string;
+};
+
+type VideoPayload = {
+  video_id?: string;
+  url?: string;
+  title?: string;
+};
+
+type NewsItem = {
+  title?: string;
+  url: string;
+  source?: string;
+};
+
+type UIAction =
+  | { type: "open_form"; payload: FormPayload }
+  | { type: "embed_video"; payload: VideoPayload }
+  | { type: "show_news"; payload: NewsItem | NewsItem[] };
+
+type UIEvent = {
+  ts: string;
+  session_id: string;
+  action: UIAction;
+  tool_token?: string;
+};
+
+type DisplayForm = FormPayload & { ts: string };
+type DisplayVideo = VideoPayload & { ts: string };
+type DisplayNews = NewsItem & { ts: string };
+
 // Optional public agent ID for the ElevenLabs widget/SDK. Configure a dedicated
 // Immigration agent in ElevenLabs with USCIS Policy Manual + Forms Instructions
 // as knowledge sources, and the NewsAPI tool enabled (via your Netlify Function
@@ -14,12 +49,12 @@ export default function ImmigrationPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const agentId = PUBLIC_AGENT_ID || "agent_5401k27xr572e2bavxz9nm9vztd1"; // replace via env in production
   const [sessionId] = useState<string>(() => (globalThis.crypto?.randomUUID?.() || `sess_${Math.random().toString(36).slice(2)}`));
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<UIEvent[]>([]);
   const [polling, setPolling] = useState<boolean>(true);
 
   // Poll UI feed (every 2s) for dynamic UI events pushed by the agent via toolsUiEvent
   useEffect(() => {
-    let timer: any;
+    let timer: ReturnType<typeof setInterval> | undefined;
     let mounted = true;
     const poll = async () => {
       try {
@@ -27,10 +62,10 @@ export default function ImmigrationPage() {
           headers: { "Cache-Control": "no-store" },
         });
         if (!res.ok) return;
-        const data = await res.json();
+        const data = (await res.json()) as { events?: UIEvent[] };
         if (!mounted) return;
         setEvents(data?.events || []);
-      } catch (e) {
+      } catch {
         // swallow for now
       }
     };
@@ -47,17 +82,17 @@ export default function ImmigrationPage() {
 
   const parsed = useMemo(() => {
     // Normalize events by type for rendering
-    const forms: any[] = [];
-    const videos: any[] = [];
-    const news: any[] = [];
+    const forms: DisplayForm[] = [];
+    const videos: DisplayVideo[] = [];
+    const news: DisplayNews[] = [];
     for (const e of events) {
       const a = e?.action;
       if (!a) continue;
-      if (a.type === "open_form") forms.push({ ...a.payload, ts: e.ts });
-      if (a.type === "embed_video") videos.push({ ...a.payload, ts: e.ts });
+      if (a.type === "open_form") forms.push({ ...(a.payload as FormPayload), ts: e.ts });
+      if (a.type === "embed_video") videos.push({ ...(a.payload as VideoPayload), ts: e.ts });
       if (a.type === "show_news") {
-        // allow single item or array
-        const items = Array.isArray(a.payload) ? a.payload : [a.payload];
+        const payload = a.payload as NewsItem | NewsItem[];
+        const items = Array.isArray(payload) ? payload : [payload];
         for (const it of items) news.push({ ...it, ts: e.ts });
       }
     }
