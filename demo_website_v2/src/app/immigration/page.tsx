@@ -118,6 +118,46 @@ export default function ImmigrationPage() {
     };
   }, [sessionId, polling]);
 
+  // Ensure ElevenLabs widget is inside our chat container and not floating
+  useEffect(() => {
+    let raf: number | undefined;
+    const placeWidget = () => {
+      const container = document.getElementById("my-chat-container");
+      if (!container) {
+        raf = requestAnimationFrame(placeWidget);
+        return;
+      }
+      // Prefer inline element inside the container
+      const inline = container.querySelector("elevenlabs-convai, elevenlabs-conversational-ai") as HTMLElement | null;
+      if (inline) {
+        inline.style.position = "relative";
+        inline.style.bottom = "";
+        inline.style.right = "";
+        inline.style.margin = "0";
+        inline.style.width = "100%";
+        inline.style.height = "100%";
+        return; // Already in place
+      }
+      // Fallback: grab any existing floating instance and move it into the container
+      const floating = document.querySelector("elevenlabs-convai, elevenlabs-conversational-ai") as HTMLElement | null;
+      if (floating && !container.contains(floating)) {
+        floating.style.position = "relative";
+        floating.style.bottom = "";
+        floating.style.right = "";
+        floating.style.margin = "0";
+        floating.style.width = "100%";
+        floating.style.height = "100%";
+        container.appendChild(floating);
+        return;
+      }
+      raf = requestAnimationFrame(placeWidget);
+    };
+    raf = requestAnimationFrame(placeWidget);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [agentId]);
+
   const parsed = useMemo(() => {
     // Normalize events by type for rendering
     const forms: DisplayForm[] = [];
@@ -212,7 +252,7 @@ export default function ImmigrationPage() {
             <div className="px-6 py-4 border-b border-blue-500/20">
               <h3 className="text-lg font-semibold text-cyan-300">Chat</h3>
             </div>
-            <div className="p-2 h-[70vh]">
+            <div id="my-chat-container" className="p-2 h-[70vh]">
               <Script src="https://unpkg.com/@elevenlabs/convai-widget-embed" strategy="afterInteractive" />
               {/* @ts-expect-error - custom element from external script */}
               <elevenlabs-convai agent-id={agentId} style={{ display: "block", width: "100%", height: "100%" }}></elevenlabs-convai>
