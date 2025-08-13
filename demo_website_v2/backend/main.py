@@ -46,6 +46,7 @@ class ImmigrationNewsRequest(BaseModel):
     days_back: int = Field(14, ge=1, le=60)
     max_results: int = Field(10, ge=1, le=50)
     tool_token: Optional[str] = None
+    session_id: Optional[str] = None
 
 
 class NewsRequest(BaseModel):
@@ -150,6 +151,25 @@ def tools_check_schedule(req: CheckScheduleRequest, x_tool_token: Optional[str] 
 # ---- UI Events feed (MVP polling) ----
 UI_FEED: Dict[str, List[Dict[str, Any]]] = {}
 
+def push_ui_event(
+    session_id: str,
+    action_type: Literal["open_form", "embed_video", "show_news"],
+    payload: Any,
+    tool_token: Optional[str] = None,
+) -> None:
+    """Append a UI event for a given session, trimming history to last 100."""
+    feed = UI_FEED.setdefault(session_id, [])
+    feed.append(
+        {
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "session_id": session_id,
+            "action": {"type": action_type, "payload": payload},
+            "tool_token": tool_token,
+        }
+    )
+    if len(feed) > 100:
+        del feed[: len(feed) - 100]
+
 
 class UIAction(BaseModel):
     type: Literal["open_form", "embed_video", "show_news"]
@@ -182,12 +202,25 @@ def ui_feed(session_id: str = Query(...)):
 class FormsFinderRequest(BaseModel):
     form_id: str
     tool_token: Optional[str] = None
+    session_id: Optional[str] = None
 
 
 @app.post("/tools/forms_finder")
 def tools_forms_finder(req: FormsFinderRequest, x_tool_token: Optional[str] = Header(None)):
     _check_auth(x_tool_token, req.tool_token)
     links = find_form_links(req.form_id)
+    # Optionally push UI update if session is provided
+    if getattr(req, "session_id", None):
+        try:
+            push_ui_event(
+                req.session_id,  # type: ignore[arg-type]
+                "open_form",
+                links.model_dump(),
+                req.tool_token,
+            )
+        except Exception:
+            # Non-fatal: UI updates are best-effort
+            pass
     return links.model_dump()
 
 
@@ -224,7 +257,20 @@ def tools_immigration_news(req: ImmigrationNewsRequest, x_tool_token: Optional[s
             "url_to_image": a.url_to_image,
         }
 
-    return {"query": req.query, "articles": [article_to_dict(a) for a in articles]}
+    out_articles = [article_to_dict(a) for a in articles]
+    # Optionally push UI update if session is provided
+    if getattr(req, "session_id", None):
+        try:
+            push_ui_event(
+                req.session_id,  # type: ignore[arg-type]
+                "show_news",
+                out_articles,
+                req.tool_token,
+            )
+        except Exception:
+            # Non-fatal: UI updates are best-effort
+            pass
+    return {"query": req.query, "articles": out_articles}
 
 
 @app.post("/tools/youtube")

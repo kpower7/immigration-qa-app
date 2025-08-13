@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Script from "next/script";
 
@@ -50,7 +50,45 @@ export default function ImmigrationPage() {
   const agentId = PUBLIC_AGENT_ID || "agent_5401k27xr572e2bavxz9nm9vztd1"; // replace via env in production
   const [sessionId] = useState<string>(() => (globalThis.crypto?.randomUUID?.() || `sess_${Math.random().toString(36).slice(2)}`));
   const [events, setEvents] = useState<UIEvent[]>([]);
-  const [polling, setPolling] = useState<boolean>(true);
+  const [polling, setPolling] = useState<boolean>(false);
+
+  // Helper: fetch UI feed once
+  const refreshFeed = useCallback(async () => {
+    try {
+      const res = await fetch(`/.netlify/functions/uiFeed?session_id=${encodeURIComponent(sessionId)}`, {
+        headers: { "Cache-Control": "no-store" },
+      });
+      if (!res.ok) return;
+      const data = (await res.json()) as { events?: UIEvent[] };
+      setEvents(data?.events || []);
+    } catch {
+      // swallow for now
+    }
+  }, [sessionId]);
+
+  // Helper: call a Netlify tool function with session header
+  const callTool = useCallback(async (fnPath: string, body: Record<string, any>) => {
+    const resp = await fetch(fnPath, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Pass session to Netlify tools proxy; it will inject as body.session_id
+        "x-ui-session-id": sessionId,
+      },
+      body: JSON.stringify(body || {}),
+    });
+    // Regardless of success/failure, try refreshing feed once to pick up any UI events
+    await refreshFeed();
+    return resp;
+  }, [sessionId, refreshFeed]);
+
+  const callImmigrationNews = useCallback(async (query: string) => {
+    return callTool("/.netlify/functions/toolsImmigrationNews", { query, days_back: 14, max_results: 10 });
+  }, [callTool]);
+
+  const callFormsFinder = useCallback(async (formId: string) => {
+    return callTool("/.netlify/functions/toolsFormsFinder", { form_id: formId });
+  }, [callTool]);
 
   // Poll UI feed (every 2s) for dynamic UI events pushed by the agent via toolsUiEvent
   useEffect(() => {
@@ -168,6 +206,35 @@ export default function ImmigrationPage() {
               <li>Section-level citations and links</li>
             </ul>
           </section>
+          {/* Quick demo actions to trigger tools and refresh UI without polling */}
+          <section className="grid md:grid-cols-2 gap-6">
+            <div className="card p-6">
+              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Try it now</h3>
+              <div className="flex flex-col gap-3">
+                <button
+                  className="px-3 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-sm"
+                  onClick={() => callImmigrationNews("OPT updates in last 2 weeks")}
+                >
+                  Fetch recent OPT news
+                </button>
+                <button
+                  className="px-3 py-2 rounded border border-cyan-600 text-cyan-300 hover:bg-cyan-900/30 text-sm"
+                  onClick={() => callFormsFinder("I-765")}
+                >
+                  Find Form I-765 links
+                </button>
+                <p className="text-xs text-gray-500">Buttons call Netlify tool functions with your session ID and refresh the Context panel once.</p>
+              </div>
+            </div>
+            <div className="card p-6">
+              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Tips</h3>
+              <ul className="text-gray-300 list-disc list-inside space-y-1">
+                <li>Use the voice widget to ask for news or specific forms</li>
+                <li>Click Refresh in the Context panel to update on demand</li>
+                <li>Enable polling if you prefer automatic updates</li>
+              </ul>
+            </div>
+          </section>
           <section className="grid md:grid-cols-2 gap-6">
             <div className="card p-6">
               <h3 className="text-lg font-semibold text-cyan-300 mb-2">Good queries</h3>
@@ -198,9 +265,14 @@ export default function ImmigrationPage() {
           <div className="card p-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-cyan-300">Context</h3>
-              <button className="text-xs text-gray-400 hover:text-cyan-300" onClick={() => setPolling(p => !p)}>
-                {polling ? "Pause" : "Resume"}
-              </button>
+              <div className="flex items-center gap-3">
+                <button className="text-xs text-gray-400 hover:text-cyan-300" onClick={refreshFeed}>
+                  Refresh
+                </button>
+                <button className="text-xs text-gray-400 hover:text-cyan-300" onClick={() => setPolling(p => !p)}>
+                  {polling ? "Pause" : "Auto"}
+                </button>
+              </div>
             </div>
             <p className="text-xs text-gray-500">The assistant can add items here during the conversation.</p>
           </div>

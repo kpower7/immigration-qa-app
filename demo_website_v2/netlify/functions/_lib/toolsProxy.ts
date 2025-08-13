@@ -9,7 +9,7 @@ export interface NetlifyEvent {
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, x-tool-token",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, x-tool-token, x-ui-session-id",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Cache-Control": "no-store",
 } as const;
@@ -39,6 +39,13 @@ export async function proxyTool(event: NetlifyEvent, operation: string) {
   try {
     const raw = event.body || "{}";
     const json = JSON.parse(raw);
+
+    // If the page provided a UI session via header, attach it to the tool request
+    // so the backend can correlate and push UI events on completion.
+    const uiSessionId = event.headers?.["x-ui-session-id"] || event.headers?.["X-Ui-Session-Id"];
+    if (uiSessionId && json && typeof json === "object" && json.session_id == null) {
+      json.session_id = uiSessionId;
+    }
 
     const headerToken = event.headers?.["x-tool-token"] || event.headers?.["X-Tool-Token"];
     const toolToken = json.tool_token || headerToken || process.env.TOOL_TOKEN;
