@@ -85,6 +85,57 @@ class NewsService:
             logger.error("Error searching news for %s: %s", team_name, e)
             return []
 
+    def search_general_news(
+        self,
+        query: str,
+        days_back: int = 14,
+        max_results: int = 10,
+    ) -> List[NewsArticle]:
+        """
+        Search for recent news articles for a general query (no MLB keyword injection).
+        """
+        if not self.client:
+            logger.error("NewsAPI client not initialized - missing API key")
+            return []
+
+        try:
+            to_date = datetime.now()
+            from_date = to_date - timedelta(days=days_back)
+
+            response = self.client.get_everything(
+                q=query,
+                from_param=from_date.strftime('%Y-%m-%d'),
+                to=to_date.strftime('%Y-%m-%d'),
+                language='en',
+                sort_by='publishedAt',
+                page_size=max_results,
+            )
+
+            articles: List[NewsArticle] = []
+            if response.get('status') == 'ok':
+                for article_data in response.get('articles', []):
+                    try:
+                        published_at = article_data.get('publishedAt')
+                        dt = datetime.fromisoformat(published_at.replace('Z', '+00:00')) if published_at else datetime.now()
+                        article = NewsArticle(
+                            title=article_data.get('title') or '',
+                            description=article_data.get('description') or '',
+                            url=article_data.get('url') or '',
+                            source=(article_data.get('source') or {}).get('name') or 'Unknown',
+                            published_at=dt,
+                            url_to_image=article_data.get('urlToImage'),
+                        )
+                        articles.append(article)
+                    except Exception as e:  # pragma: no cover
+                        logger.warning("Error parsing article: %s", e)
+                        continue
+
+            logger.info("Found %d articles for general query", len(articles))
+            return articles
+        except Exception as e:  # pragma: no cover
+            logger.error("Error searching general news: %s", e)
+            return []
+
 
 # Common MLB team name mappings for better search results
 MLB_TEAM_ALIASES = {

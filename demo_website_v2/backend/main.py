@@ -39,6 +39,14 @@ class CheckScheduleRequest(BaseModel):
     tool_token: Optional[str] = None
 
 
+# Immigration/general news
+class ImmigrationNewsRequest(BaseModel):
+    query: str
+    days_back: int = Field(14, ge=1, le=60)
+    max_results: int = Field(10, ge=1, le=50)
+    tool_token: Optional[str] = None
+
+
 class NewsRequest(BaseModel):
     team: str
     days_back: int = Field(7, ge=1, le=30)
@@ -153,6 +161,25 @@ def tools_news(req: NewsRequest, x_tool_token: Optional[str] = Header(None)):
             "url_to_image": a.url_to_image,
         }
     return {"team": req.team, "articles": [article_to_dict(a) for a in articles]}
+
+
+@app.post("/tools/immigration_news")
+def tools_immigration_news(req: ImmigrationNewsRequest, x_tool_token: Optional[str] = Header(None)):
+    _check_auth(x_tool_token, req.tool_token)
+    service = NewsService()
+    articles = service.search_general_news(req.query, req.days_back, req.max_results)
+
+    def article_to_dict(a: NewsArticle) -> Dict[str, Any]:
+        return {
+            "title": a.title,
+            "description": a.description,
+            "url": a.url,
+            "source": a.source,
+            "published_at": a.published_at.isoformat(),
+            "url_to_image": a.url_to_image,
+        }
+
+    return {"query": req.query, "articles": [article_to_dict(a) for a in articles]}
 
 
 @app.post("/tools/youtube")
