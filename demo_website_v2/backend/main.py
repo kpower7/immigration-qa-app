@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 import os
@@ -9,6 +9,7 @@ import os
 from config import settings
 from mlb_service import resolve_team_id, find_next_game, get_schedule, compare_teams, GameInfo
 from news_service import NewsService, NewsArticle
+from forms_service import find_form_links, FormLinks
 from youtube_service import search_videos, VideoItem
 from sports_data_service import SportsDataService
 
@@ -144,6 +145,50 @@ def tools_check_schedule(req: CheckScheduleRequest, x_tool_token: Optional[str] 
         "next_game": GameOut.from_game(next_game).model_dump() if next_game else None,
         "schedule": [GameOut.from_game(g).model_dump() for g in sched],
     }
+
+
+# ---- UI Events feed (MVP polling) ----
+UI_FEED: Dict[str, List[Dict[str, Any]]] = {}
+
+
+class UIAction(BaseModel):
+    type: Literal["open_form", "embed_video", "show_news"]
+    payload: Dict[str, Any]
+
+
+class UIEventRequest(BaseModel):
+    session_id: str
+    action: UIAction
+    tool_token: Optional[str] = None
+
+
+@app.post("/ui/event")
+def ui_event(req: UIEventRequest, x_tool_token: Optional[str] = Header(None)):
+    _check_auth(x_tool_token, req.tool_token)
+    feed = UI_FEED.setdefault(req.session_id, [])
+    feed.append({"ts": datetime.now(timezone.utc).isoformat(), **req.model_dump()})
+    # Limit feed size per session to avoid unbounded growth
+    if len(feed) > 100:
+        del feed[: len(feed) - 100]
+    return {"ok": True, "size": len(feed)}
+
+
+@app.get("/ui/feed")
+def ui_feed(session_id: str = Query(...)):
+    return {"session_id": session_id, "events": UI_FEED.get(session_id, [])}
+
+
+# ---- Forms Finder ----
+class FormsFinderRequest(BaseModel):
+    form_id: str
+    tool_token: Optional[str] = None
+
+
+@app.post("/tools/forms_finder")
+def tools_forms_finder(req: FormsFinderRequest, x_tool_token: Optional[str] = Header(None)):
+    _check_auth(x_tool_token, req.tool_token)
+    links = find_form_links(req.form_id)
+    return links.model_dump()
 
 
 @app.post("/tools/news")

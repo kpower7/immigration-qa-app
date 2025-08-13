@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Script from "next/script";
 
@@ -13,6 +13,56 @@ const PUBLIC_AGENT_ID = process.env.NEXT_PUBLIC_ELEVEN_AGENT_ID;
 export default function ImmigrationPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const agentId = PUBLIC_AGENT_ID || "agent_5401k27xr572e2bavxz9nm9vztd1"; // replace via env in production
+  const [sessionId] = useState<string>(() => (globalThis.crypto?.randomUUID?.() || `sess_${Math.random().toString(36).slice(2)}`));
+  const [events, setEvents] = useState<any[]>([]);
+  const [polling, setPolling] = useState<boolean>(true);
+
+  // Poll UI feed (every 2s) for dynamic UI events pushed by the agent via toolsUiEvent
+  useEffect(() => {
+    let timer: any;
+    let mounted = true;
+    const poll = async () => {
+      try {
+        const res = await fetch(`/.netlify/functions/uiFeed?session_id=${encodeURIComponent(sessionId)}`, {
+          headers: { "Cache-Control": "no-store" },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!mounted) return;
+        setEvents(data?.events || []);
+      } catch (e) {
+        // swallow for now
+      }
+    };
+    // kick off
+    poll();
+    if (polling) {
+      timer = setInterval(poll, 2000);
+    }
+    return () => {
+      mounted = false;
+      if (timer) clearInterval(timer);
+    };
+  }, [sessionId, polling]);
+
+  const parsed = useMemo(() => {
+    // Normalize events by type for rendering
+    const forms: any[] = [];
+    const videos: any[] = [];
+    const news: any[] = [];
+    for (const e of events) {
+      const a = e?.action;
+      if (!a) continue;
+      if (a.type === "open_form") forms.push({ ...a.payload, ts: e.ts });
+      if (a.type === "embed_video") videos.push({ ...a.payload, ts: e.ts });
+      if (a.type === "show_news") {
+        // allow single item or array
+        const items = Array.isArray(a.payload) ? a.payload : [a.payload];
+        for (const it of items) news.push({ ...it, ts: e.ts });
+      }
+    }
+    return { forms, videos, news };
+  }, [events]);
 
   return (
     <div className="min-h-screen gradient-hero relative overflow-hidden">
@@ -67,12 +117,14 @@ export default function ImmigrationPage() {
           Ask questions about the USCIS Policy Manual and Forms Instructions. Answers cite sections and provide links. For recent updates (e.g., OPT/STEM OPT), the assistant can search trusted news sources.
         </p>
         <p className="mt-3 text-cyan-300 font-semibold">This is educational information, not legal advice.</p>
+        <p className="mt-2 text-xs text-gray-400">Session: {sessionId}</p>
       </header>
 
-      {/* About */}
-      <section id="about" className="relative z-10 container py-10">
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="card p-6">
+      {/* Main grid: content + context sidebar */}
+      <section className="relative z-10 container py-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left: About and Widget */}
+        <div className="lg:col-span-2 space-y-6">
+          <section id="about" className="card p-6">
             <h3 className="text-lg font-semibold text-cyan-300 mb-2">How it works</h3>
             <ul className="text-gray-300 list-disc list-inside space-y-1">
               <li>Two-way voice via ElevenLabs</li>
@@ -80,41 +132,121 @@ export default function ImmigrationPage() {
               <li>On-demand NewsAPI when you ask for recent updates</li>
               <li>Section-level citations and links</li>
             </ul>
-          </div>
-          <div className="card p-6">
-            <h3 className="text-lg font-semibold text-cyan-300 mb-2">Good queries</h3>
-            <ul className="text-gray-300 list-disc list-inside space-y-1">
-              <li>“Am I eligible for STEM OPT and what evidence is needed?”</li>
-              <li>“Can I travel while my I-485 is pending?”</li>
-              <li>“Recent updates on OPT in the last 2 weeks?”</li>
-            </ul>
-          </div>
-          <div className="card p-6">
-            <h3 className="text-lg font-semibold text-cyan-300 mb-2">Transparency</h3>
-            <ul className="text-gray-300 list-disc list-inside space-y-1">
-              <li>Policy answers include citations and URLs</li>
-              <li>News answers include headlines and links</li>
-              <li>Always confirm details on official USCIS pages</li>
-            </ul>
+          </section>
+          <section className="grid md:grid-cols-2 gap-6">
+            <div className="card p-6">
+              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Good queries</h3>
+              <ul className="text-gray-300 list-disc list-inside space-y-1">
+                <li>“Am I eligible for STEM OPT and what evidence is needed?”</li>
+                <li>“Can I travel while my I-485 is pending?”</li>
+                <li>“Recent updates on OPT in the last 2 weeks?”</li>
+              </ul>
+            </div>
+            <div className="card p-6">
+              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Transparency</h3>
+              <ul className="text-gray-300 list-disc list-inside space-y-1">
+                <li>Policy answers include citations and URLs</li>
+                <li>News answers include headlines and links</li>
+                <li>Always confirm details on official USCIS pages</li>
+              </ul>
+            </div>
+          </section>
+          {/* ElevenLabs widget (agent must be configured in console with RAG + tools) */}
+          <div className="card p-2">
+            <Script src="https://unpkg.com/@elevenlabs/convai-widget-embed" strategy="afterInteractive" />
+            {/* @ts-expect-error - custom element from external script */}
+            <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
           </div>
         </div>
+        {/* Right: Context sidebar reacting to UI events */}
+        <aside className="lg:col-span-1 space-y-6">
+          <div className="card p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-cyan-300">Context</h3>
+              <button className="text-xs text-gray-400 hover:text-cyan-300" onClick={() => setPolling(p => !p)}>
+                {polling ? "Pause" : "Resume"}
+              </button>
+            </div>
+            <p className="text-xs text-gray-500">The assistant can add items here during the conversation.</p>
+          </div>
+
+          {/* Forms */}
+          {parsed.forms.length > 0 && (
+            <div className="card p-6">
+              <h4 className="text-md font-semibold text-cyan-300 mb-3">Forms</h4>
+              <ul className="space-y-3">
+                {parsed.forms.map((f, idx) => (
+                  <li key={idx} className="text-gray-200">
+                    <div className="font-semibold">{f.form_id || "USCIS Form"}</div>
+                    <div className="text-sm break-words">
+                      {f.page_url && (
+                        <a className="text-cyan-300 hover:underline" href={f.page_url} target="_blank" rel="noreferrer">Form page</a>
+                      )}
+                      {f.instructions_url && (
+                        <span className="mx-2 text-gray-500">•</span>
+                      )}
+                      {f.instructions_url && (
+                        <a className="text-cyan-300 hover:underline" href={f.instructions_url} target="_blank" rel="noreferrer">Instructions (PDF)</a>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Videos */}
+          {parsed.videos.length > 0 && (
+            <div className="card p-6">
+              <h4 className="text-md font-semibold text-cyan-300 mb-3">Videos</h4>
+              <div className="space-y-4">
+                {parsed.videos.map((v, idx) => (
+                  <div key={idx}>
+                    {v.video_id ? (
+                      <iframe
+                        className="w-full aspect-video rounded"
+                        src={`https://www.youtube.com/embed/${v.video_id}`}
+                        title={v.title || "Video"}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <a className="text-cyan-300 hover:underline" href={v.url} target="_blank" rel="noreferrer">{v.title || v.url}</a>
+                    )}
+                    {v.title && <div className="mt-2 text-sm text-gray-300">{v.title}</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* News */}
+          {parsed.news.length > 0 && (
+            <div className="card p-6">
+              <h4 className="text-md font-semibold text-cyan-300 mb-3">News</h4>
+              <ul className="space-y-3">
+                {parsed.news.map((n, idx) => (
+                  <li key={idx}>
+                    <a className="text-cyan-300 hover:underline" href={n.url} target="_blank" rel="noreferrer">{n.title || n.url}</a>
+                    {n.source && <div className="text-xs text-gray-400">{n.source}</div>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
       </section>
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-blue-500/20">
         <div className="container py-8 text-sm text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© {new Date().getFullYear()} Kevin Power • All Rights Reserved</p>
+          <p> 2023 Kevin Power • All Rights Reserved</p>
           <div className="flex gap-4">
             <a className="hover:text-cyan-300" href="/immigration">Immigration</a>
             <a className="hover:text-cyan-300" href="mailto:kevpower@mit.edu">Contact</a>
           </div>
         </div>
       </footer>
-
-      {/* ElevenLabs widget (agent must be configured in console with RAG + news tool) */}
-      <Script src="https://unpkg.com/@elevenlabs/convai-widget-embed" strategy="afterInteractive" />
-      {/* @ts-expect-error - custom element from external script */}
-      <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
     </div>
   );
 }
