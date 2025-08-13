@@ -151,6 +151,27 @@ def tools_check_schedule(req: CheckScheduleRequest, x_tool_token: Optional[str] 
 # ---- UI Events feed (MVP polling) ----
 UI_FEED: Dict[str, List[Dict[str, Any]]] = {}
 
+# Best-effort session routing for agent-triggered tool calls that lack session_id
+_LAST_ACTIVE_SESSION_ID: Optional[str] = None
+_LAST_ACTIVE_SESSION_TS: Optional[datetime] = None
+
+def _mark_session_active(session_id: str) -> None:
+    global _LAST_ACTIVE_SESSION_ID, _LAST_ACTIVE_SESSION_TS
+    _LAST_ACTIVE_SESSION_ID = session_id
+    _LAST_ACTIVE_SESSION_TS = datetime.now(timezone.utc)
+
+def _get_active_session(max_age_seconds: int = 300) -> Optional[str]:
+    """Return the most recently active UI session if it's fresh enough.
+
+    This allows server-initiated tool calls (e.g., from ElevenLabs) that do not
+    include a session_id to still update the currently active UI session.
+    """
+    if _LAST_ACTIVE_SESSION_ID and _LAST_ACTIVE_SESSION_TS:
+        age = (datetime.now(timezone.utc) - _LAST_ACTIVE_SESSION_TS).total_seconds()
+        if age <= max_age_seconds:
+            return _LAST_ACTIVE_SESSION_ID
+    return None
+
 def push_ui_event(
     session_id: str,
     action_type: Literal["open_form", "embed_video", "show_news"],
@@ -190,11 +211,15 @@ def ui_event(req: UIEventRequest, x_tool_token: Optional[str] = Header(None)):
     # Limit feed size per session to avoid unbounded growth
     if len(feed) > 100:
         del feed[: len(feed) - 100]
+    # Track last active session for best-effort routing
+    _mark_session_active(req.session_id)
     return {"ok": True, "size": len(feed)}
 
 
 @app.get("/ui/feed")
 def ui_feed(session_id: str = Query(...)):
+    # Track last active session for best-effort routing
+    _mark_session_active(session_id)
     return {"session_id": session_id, "events": UI_FEED.get(session_id, [])}
 
 
@@ -210,10 +235,11 @@ def tools_forms_finder(req: FormsFinderRequest, x_tool_token: Optional[str] = He
     _check_auth(x_tool_token, req.tool_token)
     links = find_form_links(req.form_id)
     # Optionally push UI update if session is provided
-    if getattr(req, "session_id", None):
+    session_id = getattr(req, "session_id", None) or _get_active_session()
+    if session_id:
         try:
             push_ui_event(
-                req.session_id,  # type: ignore[arg-type]
+                session_id,  # type: ignore[arg-type]
                 "open_form",
                 links.model_dump(),
                 req.tool_token,
@@ -258,11 +284,12 @@ def tools_immigration_news(req: ImmigrationNewsRequest, x_tool_token: Optional[s
         }
 
     out_articles = [article_to_dict(a) for a in articles]
-    # Optionally push UI update if session is provided
-    if getattr(req, "session_id", None):
+    # Optionally push UI update if session is provided; otherwise best-effort to last active
+    session_id = getattr(req, "session_id", None) or _get_active_session()
+    if session_id:
         try:
             push_ui_event(
-                req.session_id,  # type: ignore[arg-type]
+                session_id,  # type: ignore[arg-type]
                 "show_news",
                 out_articles,
                 req.tool_token,

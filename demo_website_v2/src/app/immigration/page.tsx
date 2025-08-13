@@ -50,7 +50,7 @@ export default function ImmigrationPage() {
   const agentId = PUBLIC_AGENT_ID || "agent_5401k27xr572e2bavxz9nm9vztd1"; // replace via env in production
   const [sessionId] = useState<string>(() => (globalThis.crypto?.randomUUID?.() || `sess_${Math.random().toString(36).slice(2)}`));
   const [events, setEvents] = useState<UIEvent[]>([]);
-  const [polling, setPolling] = useState<boolean>(false);
+  const [polling, setPolling] = useState<boolean>(true);
 
   // Helper: fetch UI feed once
   const refreshFeed = useCallback(async () => {
