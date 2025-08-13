@@ -43,8 +43,10 @@ export async function proxyTool(event: NetlifyEvent, operation: string) {
     // If the page provided a UI session via header, attach it to the tool request
     // so the backend can correlate and push UI events on completion.
     const uiSessionId = event.headers?.["x-ui-session-id"] || event.headers?.["X-Ui-Session-Id"];
-    if (uiSessionId && json && typeof json === "object" && json.session_id == null) {
-      json.session_id = uiSessionId;
+    const qpSession = event.queryStringParameters?.["session_id"] || event.queryStringParameters?.["ui_session_id"];
+    if (json && typeof json === "object" && json.session_id == null) {
+      if (uiSessionId) json.session_id = uiSessionId;
+      else if (qpSession) json.session_id = qpSession;
     }
 
     const headerToken = event.headers?.["x-tool-token"] || event.headers?.["X-Tool-Token"];
