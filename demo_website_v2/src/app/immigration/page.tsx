@@ -206,62 +206,21 @@ export default function ImmigrationPage() {
               <li>Section-level citations and links</li>
             </ul>
           </section>
-          {/* Quick demo actions to trigger tools and refresh UI without polling */}
-          <section className="grid md:grid-cols-2 gap-6">
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Try it now</h3>
-              <div className="flex flex-col gap-3">
-                <button
-                  className="px-3 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-sm"
-                  onClick={() => callImmigrationNews("OPT updates in last 2 weeks")}
-                >
-                  Fetch recent OPT news
-                </button>
-                <button
-                  className="px-3 py-2 rounded border border-cyan-600 text-cyan-300 hover:bg-cyan-900/30 text-sm"
-                  onClick={() => callFormsFinder("I-765")}
-                >
-                  Find Form I-765 links
-                </button>
-                <p className="text-xs text-gray-500">Buttons call Netlify tool functions with your session ID and refresh the Context panel once.</p>
-              </div>
+          {/* Removed quick demo and tips boxes for a cleaner layout */}
+          {/* ElevenLabs chat widget */}
+          <div className="card p-0 overflow-hidden">
+            <div className="px-6 py-4 border-b border-blue-500/20">
+              <h3 className="text-lg font-semibold text-cyan-300">Chat</h3>
             </div>
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Tips</h3>
-              <ul className="text-gray-300 list-disc list-inside space-y-1">
-                <li>Use the voice widget to ask for news or specific forms</li>
-                <li>Click Refresh in the Context panel to update on demand</li>
-                <li>Enable polling if you prefer automatic updates</li>
-              </ul>
+            <div className="p-2 h-[70vh]">
+              <Script src="https://unpkg.com/@elevenlabs/convai-widget-embed" strategy="afterInteractive" />
+              {/* @ts-expect-error - custom element from external script */}
+              <elevenlabs-convai agent-id={agentId} style={{ display: "block", width: "100%", height: "100%" }}></elevenlabs-convai>
             </div>
-          </section>
-          <section className="grid md:grid-cols-2 gap-6">
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Good queries</h3>
-              <ul className="text-gray-300 list-disc list-inside space-y-1">
-                <li>“Am I eligible for STEM OPT and what evidence is needed?”</li>
-                <li>“Can I travel while my I-485 is pending?”</li>
-                <li>“Recent updates on OPT in the last 2 weeks?”</li>
-              </ul>
-            </div>
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-cyan-300 mb-2">Transparency</h3>
-              <ul className="text-gray-300 list-disc list-inside space-y-1">
-                <li>Policy answers include citations and URLs</li>
-                <li>News answers include headlines and links</li>
-                <li>Always confirm details on official USCIS pages</li>
-              </ul>
-            </div>
-          </section>
-          {/* ElevenLabs widget (agent must be configured in console with RAG + tools) */}
-          <div className="card p-2">
-            <Script src="https://unpkg.com/@elevenlabs/convai-widget-embed" strategy="afterInteractive" />
-            {/* @ts-expect-error - custom element from external script */}
-            <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
           </div>
         </div>
         {/* Right: Context sidebar reacting to UI events */}
-        <aside className="lg:col-span-1 space-y-6">
+        <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 self-start">
           <div className="card p-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-cyan-300">Context</h3>
