@@ -1,7 +1,7 @@
 [build]
   base = "demo_website_v2"
   command = "npm run build"
-  publish = "demo_website_v2/out"
+  publish = "out"
 
 [functions]
   directory = "demo_website_v2/netlify/functions"

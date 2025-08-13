@@ -22,6 +22,7 @@ export default function Home() {
         <div className="hidden md:flex items-center gap-8 text-gray-300">
           <a href="#demos" className="hover:text-cyan-400 transition-colors">Demos</a>
           <Link href="/voice" className="hover:text-cyan-400 transition-colors">Voice</Link>
+          <Link href="/immigration" className="hover:text-cyan-400 transition-colors">Immigration</Link>
           <a href="mailto:kevpower@mit.edu" className="hover:text-cyan-400 transition-colors">Contact</a>
         </div>
         <button
@@ -45,6 +46,7 @@ export default function Home() {
           <div className="container py-4 flex flex-col gap-4">
             <a href="#demos" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Demos</a>
             <Link href="/voice" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Voice</Link>
+            <Link href="/immigration" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Immigration</Link>
             <a href="mailto:kevpower@mit.edu" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Contact</a>
           </div>
         </div>
@@ -67,7 +69,7 @@ export default function Home() {
       {/* Demos Section */}
       <section id="demos" className="relative z-10 container py-14">
         <h2 className="text-3xl font-bold text-white text-center mb-10">Choose a Demo</h2>
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           <div className="card p-6">
             <h3 className="text-xl font-semibold text-cyan-300 mb-2">MLB Analyst</h3>
             <p className="text-gray-300">Scouting, stats, news, videos. Isolated MLB experience.</p>
@@ -80,6 +82,13 @@ export default function Home() {
             <p className="text-gray-300">Real-time ElevenLabs voice agent with tool calling.</p>
             <div className="mt-4">
               <Link href="/voice" className="px-6 py-3 rounded-lg border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-white transition-all">Open Voice Demo</Link>
+            </div>
+          </div>
+          <div className="card p-6">
+            <h3 className="text-xl font-semibold text-cyan-300 mb-2">USCIS Policy Navigator</h3>
+            <p className="text-gray-300">Conversational agent for USCIS Policy Manual + Forms Instructions with citations.</p>
+            <div className="mt-4">
+              <Link href="/immigration" className="px-6 py-3 rounded-lg border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-white transition-all">Open Immigration Demo</Link>
             </div>
           </div>
         </div>
@@ -125,6 +134,7 @@ export default function Home() {
           <p>© {new Date().getFullYear()} Kevin Power • All Rights Reserved</p>
           <div className="flex gap-4">
             <a className="hover:text-cyan-300" href="/voice">Voice</a>
+            <a className="hover:text-cyan-300" href="/immigration">Immigration</a>
             <a className="hover:text-cyan-300" href="mailto:kevpower@mit.edu">Contact</a>
           </div>
         </div>
