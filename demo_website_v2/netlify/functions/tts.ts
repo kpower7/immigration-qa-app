@@ -1,5 +1,5 @@
 // Netlify Function: (Deprecated) ElevenLabs Text-to-Speech
-// This endpoint is deprecated in favor of the real-time ElevenLabs Agent voice experience at /voice.
+// This endpoint is deprecated. Please use the new OSS text chat at /voice-oss.
 
 export async function handler(event: unknown) {
   const evt = event as { httpMethod?: string; body?: string | null };
@@ -18,8 +18,8 @@ export async function handler(event: unknown) {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
     body: JSON.stringify({
       error: "Deprecated",
-      message: "This TTS endpoint is deprecated. Please use the real-time voice agent at /voice.",
-      redirect: "/voice",
+      message: "This TTS endpoint is deprecated. Please use the new OSS text chat at /voice-oss.",
+      redirect: "/voice-oss",
     }),
   };
 }

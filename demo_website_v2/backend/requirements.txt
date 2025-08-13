@@ -7,3 +7,4 @@ youtube-transcript-api>=0.6,<1.0
 youtube-search-python>=1.6,<2.0
 pydantic>=2.6,<3.0
 httpx>=0.24.1,<0.25
+scikit-learn>=1.5,<2.0

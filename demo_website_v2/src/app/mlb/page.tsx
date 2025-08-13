@@ -22,7 +22,7 @@ export default function MlbHome() {
         <div className="hidden md:flex items-center gap-8 text-gray-300">
           <Link href="/mlb" className="hover:text-cyan-400 transition-colors">Home</Link>
           <a href="#videos" className="hover:text-cyan-400 transition-colors">Videos</a>
-          <Link href="/voice" className="hover:text-cyan-400 transition-colors">Voice</Link>
+          <Link href="/voice-oss" className="hover:text-cyan-400 transition-colors">OSS Chat</Link>
           <a href="mailto:kevpower@mit.edu" className="hover:text-cyan-400 transition-colors">Contact</a>
         </div>
         <button
@@ -46,7 +46,7 @@ export default function MlbHome() {
           <div className="container py-4 flex flex-col gap-4">
             <Link href="/mlb" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Home</Link>
             <a href="#videos" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Videos</a>
-            <Link href="/voice" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Voice</Link>
+            <Link href="/voice-oss" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">OSS Chat</Link>
             <a href="mailto:kevpower@mit.edu" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Contact</a>
           </div>
         </div>
@@ -58,11 +58,11 @@ export default function MlbHome() {
           MLB Analyst & Betting Assistant
         </h1>
         <p className="mt-4 text-xl text-gray-300 max-w-3xl mx-auto">
-          Real-time voice agent powered by ElevenLabs (GPT-5) with a FastAPI tools backend (schedule, stats, news, YouTube) behind Netlify Functions. Concise scouting plus clear betting leans.
+          Text chat powered by Modal GPT‑OSS‑120B with a FastAPI tools backend (schedule, stats, news, YouTube) behind Netlify Functions. Concise scouting plus clear betting leans.
         </p>
         <p className="mt-3 text-cyan-300 font-semibold">Built by Kevin Power</p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/voice" className="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all">Try Voice Demo</Link>
+          <Link href="/voice-oss" className="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all">Open OSS Chat</Link>
           <a href="#videos" className="px-8 py-4 rounded-full border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-white transition-all">Watch Videos</a>
         </div>
       </header>
@@ -99,7 +99,7 @@ export default function MlbHome() {
           </div>
         </div>
         <div className="text-center mt-8">
-          <Link href="/voice" className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all">Go to Voice Demo</Link>
+          <Link href="/voice-oss" className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all">Open OSS Chat</Link>
         </div>
       </section>
 
@@ -110,9 +110,9 @@ export default function MlbHome() {
           <div className="card p-6">
             <h3 className="text-lg font-semibold text-cyan-300 mb-2">Stack</h3>
             <ul className="text-gray-300 list-disc list-inside space-y-1">
-              <li>Next.js + Tailwind UI at <code>/voice</code></li>
-              <li>ElevenLabs Agent (GPT‑5) real‑time voice</li>
-              <li>Netlify Functions: tool proxy + WS broker</li>
+              <li>Next.js + Tailwind UI at <code>/voice-oss</code></li>
+              <li>Modal GPT‑OSS‑120B text chat</li>
+              <li>Netlify Functions: tool proxies</li>
               <li>FastAPI backend: schedule, stats, news, YouTube</li>
             </ul>
           </div>
@@ -128,8 +128,8 @@ export default function MlbHome() {
           <div className="card p-6">
             <h3 className="text-lg font-semibold text-cyan-300 mb-2">Security</h3>
             <ul className="text-gray-300 list-disc list-inside space-y-1">
-              <li>Token‑secured tool calls via Functions</li>
-              <li>Secrets in env: ELEVEN_API_KEY, TOOL_TOKEN, NEWS_API_KEY</li>
+              <li>Token‑secured calls via Netlify Functions</li>
+              <li>Secrets in env: TOOL_TOKEN, MODAL_WEB_URL, NEWS_API_KEY</li>
               <li>Backend URL hidden behind the proxy</li>
               <li>UTC‑safe scheduling and pinned deps</li>
             </ul>
@@ -140,9 +140,9 @@ export default function MlbHome() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-blue-500/20">
         <div className="container py-8 text-sm text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© {new Date().getFullYear()} Kevin Power • All Rights Reserved</p>
+          <p> {new Date().getFullYear()} Kevin Power • All Rights Reserved</p>
           <div className="flex gap-4">
-            <a className="hover:text-cyan-300" href="/voice">Voice</a>
+            <a className="hover:text-cyan-300" href="/voice-oss">OSS Chat</a>
             <a className="hover:text-cyan-300" href="mailto:kevpower@mit.edu">Contact</a>
           </div>
         </div>

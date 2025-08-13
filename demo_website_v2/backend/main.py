@@ -12,6 +12,8 @@ from news_service import NewsService, NewsArticle
 from forms_service import find_form_links, FormLinks
 from youtube_service import search_videos, VideoItem
 from sports_data_service import SportsDataService
+from ai_service import call_modal_generate
+from rag_store import retrieve_context
 
 load_dotenv()
 app = FastAPI(title="Hackathon AI Backend", version="0.1.0")
@@ -76,6 +78,48 @@ class TeamIntelRequest(BaseModel):
     max_news: int = Field(10, ge=1, le=50)
     max_videos: int = Field(10, ge=1, le=50)
     tool_token: Optional[str] = None
+
+
+# ---- AI (Chat + Immigration QA) ----
+class ChatMessage(BaseModel):
+    role: Literal["system", "user", "assistant"]
+    content: str
+
+
+class ChatRequest(BaseModel):
+    messages: List[ChatMessage]
+    system_prompt: Optional[str] = None
+    model: Optional[str] = None
+    temperature: float = 0.3
+    tool_token: Optional[str] = None
+
+
+class ChatResponse(BaseModel):
+    text: str
+    model: str
+
+
+class ImmigrationQARequest(BaseModel):
+    question: str
+    top_k: int = Field(default=4, ge=1, le=10)
+    model: Optional[str] = None
+    temperature: float = 0.2
+    tool_token: Optional[str] = None
+
+
+class Citation(BaseModel):
+    id: int
+    source: str
+    title: Optional[str] = None
+    url: Optional[str] = None
+    score: Optional[float] = None
+    snippet: Optional[str] = None
+
+
+class ImmigrationQAResponse(BaseModel):
+    answer: str
+    model: str
+    citations: List[Citation]
 
 
 class GameOut(BaseModel):
@@ -340,3 +384,71 @@ def tools_team_intel(req: TeamIntelRequest, x_tool_token: Optional[str] = Header
             for v in intel.youtube_videos
         ],
     }
+
+
+# ---- AI endpoints ----
+@app.post("/ai/chat", response_model=ChatResponse)
+def ai_chat(req: ChatRequest, x_tool_token: Optional[str] = Header(None)):
+    _check_auth(x_tool_token, req.tool_token)
+    # Convert Pydantic models to plain dicts
+    msgs = [{"role": m.role, "content": m.content} for m in req.messages]
+    text = call_modal_generate(
+        messages=msgs,
+        system_prompt=req.system_prompt,
+        model=req.model,
+        temperature=req.temperature,
+    )
+    return ChatResponse(text=text, model=req.model or settings.DEFAULT_OSS_MODEL)
+
+
+@app.post("/ai/immigration_qa", response_model=ImmigrationQAResponse)
+def ai_immigration_qa(req: ImmigrationQARequest, x_tool_token: Optional[str] = Header(None)):
+    _check_auth(x_tool_token, req.tool_token)
+    # Retrieve context
+    hits = retrieve_context(req.question, top_k=req.top_k)
+    # Build numbered context and citations
+    numbered: List[Dict[str, Any]] = []
+    context_lines: List[str] = []
+    for idx, h in enumerate(hits, start=1):
+        numbered.append({"id": idx, **h})
+        snippet = h.get("snippet") or ""
+        src = h.get("title") or h.get("source") or "source"
+        context_lines.append(f"[{idx}] {src}:\n{snippet}")
+    context_block = "\n\n".join(context_lines) if context_lines else "(no retrieved context)"
+
+    system_prompt = (
+        "You are an immigration assistant answering questions about the USCIS Policy Manual and Forms Instructions. "
+        "Be concise, accurate, and provide citations like [1], [2] that refer to the provided context snippets. "
+        "If the answer is not in the context, say you don't know and suggest where to look on uscis.gov."
+    )
+
+    user_content = (
+        f"Context snippets (may be partial):\n{context_block}\n\n"
+        f"Question: {req.question}\n\n"
+        "Answer with clear bullets where helpful and include bracketed citations [n] that match the snippets above."
+    )
+
+    answer = call_modal_generate(
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_content},
+        ],
+        system_prompt=None,
+        model=req.model,
+        temperature=req.temperature,
+    )
+
+    citations: List[Citation] = []
+    for item in numbered:
+        citations.append(
+            Citation(
+                id=int(item.get("id")),
+                source=str(item.get("source")),
+                title=(item.get("title") if isinstance(item.get("title"), str) else None),
+                url=(item.get("url") if isinstance(item.get("url"), str) else None),
+                score=(float(item.get("score")) if isinstance(item.get("score"), (int, float)) else None),
+                snippet=(item.get("snippet") if isinstance(item.get("snippet"), str) else None),
+            )
+        )
+
+    return ImmigrationQAResponse(answer=answer, model=req.model or settings.DEFAULT_OSS_MODEL, citations=citations)

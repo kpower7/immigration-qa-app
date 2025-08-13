@@ -18,13 +18,18 @@
 
 [[redirects]]
   from = "/demo"
-  to = "/voice"
+  to = "/voice-oss"
   status = 301
 
 [[redirects]]
   from = "/voice"
-  to = "/voice/index.html"
-  status = 200
+  to = "/voice-oss"
+  status = 301
+
+[[redirects]]
+  from = "/immigration"
+  to = "/immigration-qa"
+  status = 301
 
 [[redirects]]
   from = "/*"

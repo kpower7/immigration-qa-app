@@ -2,7 +2,6 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import Script from "next/script";
 
 // Types for UI events and payloads mirrored from backend `UIAction` model
 type FormPayload = {
@@ -39,15 +38,10 @@ type DisplayForm = FormPayload & { ts: string };
 type DisplayVideo = VideoPayload & { ts: string };
 type DisplayNews = NewsItem & { ts: string };
 
-// Optional public agent ID for the ElevenLabs widget/SDK. Configure a dedicated
-// Immigration agent in ElevenLabs with USCIS Policy Manual + Forms Instructions
-// as knowledge sources, and the NewsAPI tool enabled (via your Netlify Function
-// proxy to the backend /tools/news you already have).
-const PUBLIC_AGENT_ID = process.env.NEXT_PUBLIC_ELEVEN_AGENT_ID;
+// Legacy ElevenLabs voice env removed; this page now points users to text chat.
 
 export default function ImmigrationPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const agentId = PUBLIC_AGENT_ID || "agent_5401k27xr572e2bavxz9nm9vztd1"; // replace via env in production
   const [sessionId] = useState<string>(() => (globalThis.crypto?.randomUUID?.() || `sess_${Math.random().toString(36).slice(2)}`));
   const [events, setEvents] = useState<UIEvent[]>([]);
   const [polling, setPolling] = useState<boolean>(false);
@@ -147,11 +141,11 @@ export default function ImmigrationPage() {
 
       {/* Navbar (scoped to Immigration demo) */}
       <nav className="relative z-10 container py-6 flex items-center justify-between">
-        <Link href="/immigration" className="text-white font-bold text-2xl">
+        <Link href="/" className="text-white font-bold text-2xl">
           Hackathon<span className="text-cyan-400">AI</span>
         </Link>
         <div className="hidden md:flex items-center gap-8 text-gray-300">
-          <Link href="/immigration" className="hover:text-cyan-400 transition-colors">Home</Link>
+          <Link href="/immigration-qa" className="hover:text-cyan-400 transition-colors">USCIS Q&A</Link>
           <a href="#about" className="hover:text-cyan-400 transition-colors">About</a>
           <a href="mailto:kevpower@mit.edu" className="hover:text-cyan-400 transition-colors">Contact</a>
         </div>
@@ -174,7 +168,7 @@ export default function ImmigrationPage() {
       {isMobileMenuOpen && (
         <div className="md:hidden relative z-10 border-t border-blue-500/20 bg-slate-900/95">
           <div className="container py-4 flex flex-col gap-4">
-            <Link href="/immigration" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Home</Link>
+            <Link href="/immigration-qa" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">USCIS Q&A</Link>
             <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">About</a>
             <a href="mailto:kevpower@mit.edu" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Contact</a>
           </div>
@@ -184,13 +178,14 @@ export default function ImmigrationPage() {
       {/* Hero */}
       <header className="relative z-10 container pt-12 pb-8 text-center">
         <h1 className="text-5xl md:text-6xl font-extrabold text-white leading-tight">
-          USCIS Policy Navigator (Voice)
+          Immigration Voice demo deprecated
         </h1>
         <p className="mt-4 text-xl text-gray-300 max-w-3xl mx-auto">
-          Ask questions about the USCIS Policy Manual and Forms Instructions. Answers cite sections and provide links. For recent updates (e.g., OPT/STEM OPT), the assistant can search trusted news sources.
+          Please use the new USCIS Q&A text chat backed by Modal GPT‑OSS‑120B.
         </p>
-        <p className="mt-3 text-cyan-300 font-semibold">This is educational information, not legal advice.</p>
-        <p className="mt-2 text-xs text-gray-400">Session: {sessionId}</p>
+        <div className="mt-6">
+          <Link href="/immigration-qa" className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold">Open USCIS Q&amp;A</Link>
+        </div>
       </header>
 
       {/* Main grid: content + context sidebar */}
@@ -200,7 +195,7 @@ export default function ImmigrationPage() {
           <section id="about" className="card p-6">
             <h3 className="text-lg font-semibold text-cyan-300 mb-2">How it works</h3>
             <ul className="text-gray-300 list-disc list-inside space-y-1">
-              <li>Two-way voice via ElevenLabs</li>
+              <li>Text chat via Modal GPT‑OSS‑120B</li>
               <li>Built-in RAG on USCIS Policy Manual + Forms Instructions</li>
               <li>On-demand NewsAPI when you ask for recent updates</li>
               <li>Section-level citations and links</li>
@@ -229,7 +224,7 @@ export default function ImmigrationPage() {
             <div className="card p-6">
               <h3 className="text-lg font-semibold text-cyan-300 mb-2">Tips</h3>
               <ul className="text-gray-300 list-disc list-inside space-y-1">
-                <li>Use the voice widget to ask for news or specific forms</li>
+                <li>Use the USCIS Q&A text chat to ask for news or specific forms</li>
                 <li>Click Refresh in the Context panel to update on demand</li>
                 <li>Enable polling if you prefer automatic updates</li>
               </ul>
@@ -253,11 +248,10 @@ export default function ImmigrationPage() {
               </ul>
             </div>
           </section>
-          {/* ElevenLabs widget (agent must be configured in console with RAG + tools) */}
-          <div className="card p-2">
-            <Script src="https://unpkg.com/@elevenlabs/convai-widget-embed" strategy="afterInteractive" />
-            {/* @ts-expect-error - custom element from external script */}
-            <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
+          {/* Deprecated: Voice widget removed */}
+          <div className="card p-6 text-center">
+            <p className="text-gray-300 mb-3">This legacy voice page has been removed.</p>
+            <Link href="/immigration-qa" className="inline-block px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold">Go to USCIS Q&amp;A</Link>
           </div>
         </div>
         {/* Right: Context sidebar reacting to UI events */}
@@ -347,9 +341,9 @@ export default function ImmigrationPage() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-blue-500/20">
         <div className="container py-8 text-sm text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p> 2023 Kevin Power • All Rights Reserved</p>
+          <p> {new Date().getFullYear()} Kevin Power • All Rights Reserved</p>
           <div className="flex gap-4">
-            <a className="hover:text-cyan-300" href="/immigration">Immigration</a>
+            <a className="hover:text-cyan-300" href="/immigration-qa">USCIS Q&amp;A</a>
             <a className="hover:text-cyan-300" href="mailto:kevpower@mit.edu">Contact</a>
           </div>
         </div>

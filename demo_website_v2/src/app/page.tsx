@@ -21,8 +21,8 @@ export default function Home() {
         </Link>
         <div className="hidden md:flex items-center gap-8 text-gray-300">
           <a href="#demos" className="hover:text-cyan-400 transition-colors">Demos</a>
-          <Link href="/voice" className="hover:text-cyan-400 transition-colors">Voice</Link>
-          <Link href="/immigration" className="hover:text-cyan-400 transition-colors">Immigration</Link>
+          <Link href="/voice-oss" className="hover:text-cyan-400 transition-colors">OSS Chat</Link>
+          <Link href="/immigration-qa" className="hover:text-cyan-400 transition-colors">USCIS Q&A</Link>
           <a href="mailto:kevpower@mit.edu" className="hover:text-cyan-400 transition-colors">Contact</a>
         </div>
         <button
@@ -45,8 +45,8 @@ export default function Home() {
         <div className="md:hidden relative z-10 border-t border-blue-500/20 bg-slate-900/95">
           <div className="container py-4 flex flex-col gap-4">
             <a href="#demos" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Demos</a>
-            <Link href="/voice" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Voice</Link>
-            <Link href="/immigration" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Immigration</Link>
+            <Link href="/voice-oss" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">OSS Chat</Link>
+            <Link href="/immigration-qa" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">USCIS Q&A</Link>
             <a href="mailto:kevpower@mit.edu" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-300 hover:text-cyan-400">Contact</a>
           </div>
         </div>
@@ -78,17 +78,17 @@ export default function Home() {
             </div>
           </div>
           <div className="card p-6">
-            <h3 className="text-xl font-semibold text-cyan-300 mb-2">Voice Betting Analyst</h3>
-            <p className="text-gray-300">Real-time ElevenLabs voice agent with tool calling.</p>
+            <h3 className="text-xl font-semibold text-cyan-300 mb-2">OSS Text Chat</h3>
+            <p className="text-gray-300">Text chat backed by Modal GPT‑OSS‑120B via FastAPI.</p>
             <div className="mt-4">
-              <Link href="/voice" className="px-6 py-3 rounded-lg border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-white transition-all">Open Voice Demo</Link>
+              <Link href="/voice-oss" className="px-6 py-3 rounded-lg border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-white transition-all">Open OSS Chat</Link>
             </div>
           </div>
           <div className="card p-6">
             <h3 className="text-xl font-semibold text-cyan-300 mb-2">USCIS Policy Navigator</h3>
-            <p className="text-gray-300">Conversational agent for USCIS Policy Manual + Forms Instructions with citations.</p>
+            <p className="text-gray-300">Q&A over USCIS Policy Manual + Forms Instructions with citations.</p>
             <div className="mt-4">
-              <Link href="/immigration" className="px-6 py-3 rounded-lg border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-white transition-all">Open Immigration Demo</Link>
+              <Link href="/immigration-qa" className="px-6 py-3 rounded-lg border-2 border-cyan-400 text-cyan-400 font-semibold hover:bg-cyan-400 hover:text-white transition-all">Open USCIS Q&A</Link>
             </div>
           </div>
         </div>
@@ -101,10 +101,10 @@ export default function Home() {
           <div className="card p-6">
             <h3 className="text-lg font-semibold text-cyan-300 mb-2">Stack</h3>
             <ul className="text-gray-300 list-disc list-inside space-y-1">
-              <li>Next.js + Tailwind UI at <code>/voice</code></li>
-              <li>ElevenLabs Agent (GPT‑5) real‑time voice</li>
-              <li>Netlify Functions: tool proxy + WS broker</li>
-              <li>FastAPI backend: schedule, stats, news, YouTube</li>
+              <li>Next.js + Tailwind UI at <code>/voice-oss</code> and <code>/immigration-qa</code></li>
+              <li>Modal GPT‑OSS‑120B inference via FastAPI</li>
+              <li>Netlify Functions: proxies to backend AI endpoints</li>
+              <li>FastAPI backend: schedule, stats, news, YouTube, RAG</li>
             </ul>
           </div>
           <div className="card p-6">
@@ -119,8 +119,8 @@ export default function Home() {
           <div className="card p-6">
             <h3 className="text-lg font-semibold text-cyan-300 mb-2">Security</h3>
             <ul className="text-gray-300 list-disc list-inside space-y-1">
-              <li>Token‑secured tool calls via Functions</li>
-              <li>Secrets in env: ELEVEN_API_KEY, TOOL_TOKEN, NEWS_API_KEY</li>
+              <li>Token‑secured calls via Netlify Functions</li>
+              <li>Secrets in env: TOOL_TOKEN, MODAL_WEB_URL, NEWS_API_KEY</li>
               <li>Backend URL hidden behind the proxy</li>
               <li>UTC‑safe scheduling and pinned deps</li>
             </ul>
@@ -133,8 +133,8 @@ export default function Home() {
         <div className="container py-8 text-sm text-gray-400 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>© {new Date().getFullYear()} Kevin Power • All Rights Reserved</p>
           <div className="flex gap-4">
-            <a className="hover:text-cyan-300" href="/voice">Voice</a>
-            <a className="hover:text-cyan-300" href="/immigration">Immigration</a>
+            <a className="hover:text-cyan-300" href="/voice-oss">OSS Chat</a>
+            <a className="hover:text-cyan-300" href="/immigration-qa">USCIS Q&A</a>
             <a className="hover:text-cyan-300" href="mailto:kevpower@mit.edu">Contact</a>
           </div>
         </div>

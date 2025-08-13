@@ -1,6 +1,6 @@
 // Netlify Function: (Deprecated) Legacy chatbot endpoint
-// This endpoint has been deprecated in favor of the ElevenLabs real-time voice agent.
-// Please use the /voice page instead of calling this function.
+// This endpoint is deprecated.
+// Please use the new OSS text chat at /voice-oss instead of calling this function.
 
 export async function handler(event: any) {
   const corsHeaders = {
@@ -18,8 +18,8 @@ export async function handler(event: any) {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
     body: JSON.stringify({
       error: "Deprecated",
-      message: "This chatbot endpoint is deprecated. Please use the real-time voice agent at /voice.",
-      redirect: "/voice",
+      message: "This chatbot endpoint is deprecated. Please use the new OSS text chat at /voice-oss.",
+      redirect: "/voice-oss",
     }),
   };
 }
