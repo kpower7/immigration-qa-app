@@ -67,7 +67,7 @@ export default function ImmigrationPage() {
   }, [sessionId]);
 
   // Helper: call a Netlify tool function with session header
-  const callTool = useCallback(async (fnPath: string, body: Record<string, any>) => {
+  const callTool = useCallback(async (fnPath: string, body: Record<string, unknown>) => {
     const resp = await fetch(fnPath, {
       method: "POST",
       headers: {
