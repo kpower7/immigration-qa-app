@@ -27,6 +27,13 @@ class ChatResponse(BaseModel):
 # Generation pipeline cache (initialized on first request)
 _GEN_PIPE = None
 _GEN_TOKENIZER = None
+_GEN_MODEL_NAME = None
+
+# Simple alias mapping so existing backend defaults keep working
+MODEL_ALIASES = {
+    "gpt-oss-120b": "mistralai/Mistral-7B-Instruct-v0.3",
+    "gpt-oss": "mistralai/Mistral-7B-Instruct-v0.3",
+}
 
 # Modal function with web endpoint
 @app.function(
@@ -38,7 +45,8 @@ _GEN_TOKENIZER = None
         "fastapi",
         "sentencepiece"  # Often needed for newer models
     ]),
-    timeout=25,
+    gpu=modal.gpu.A10G(),  # Use a single A10G; scale later if needed
+    timeout=120,
     keep_warm=1,  # Keep 1 instance warm to avoid cold starts
 )
 @modal.web_endpoint(method="POST")
@@ -65,7 +73,9 @@ def web(request: ChatRequest) -> ChatResponse:
         global _GEN_PIPE, _GEN_TOKENIZER, _GEN_MODEL_NAME
         # Determine which model to use for this request
         raw_requested = (getattr(request, "model", None) or "").strip()
-        model_name = raw_requested or os.getenv("OSS_MODEL_NAME", "Qwen/Qwen2.5-0.5B-Instruct")
+        requested = MODEL_ALIASES.get(raw_requested, raw_requested)
+        env_default = MODEL_ALIASES.get(os.getenv("OSS_MODEL_NAME", "mistralai/Mistral-7B-Instruct-v0.3"), os.getenv("OSS_MODEL_NAME", "mistralai/Mistral-7B-Instruct-v0.3"))
+        model_name = requested or env_default
         if (_GEN_PIPE is None) or (_GEN_MODEL_NAME != model_name):
             tok = AutoTokenizer.from_pretrained(model_name)
             if tok.pad_token is None and tok.eos_token is not None:
@@ -73,15 +83,27 @@ def web(request: ChatRequest) -> ChatResponse:
             cfg = AutoConfig.from_pretrained(model_name)
             is_seq2seq = bool(getattr(cfg, "is_encoder_decoder", False))
             if is_seq2seq:
-                mdl = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+                mdl = AutoModelForSeq2SeqLM.from_pretrained(
+                    model_name,
+                    low_cpu_mem_usage=True,
+                    trust_remote_code=True,
+                )
                 task = "text2text-generation"
             else:
-                mdl = AutoModelForCausalLM.from_pretrained(model_name)
+                mdl = AutoModelForCausalLM.from_pretrained(
+                    model_name,
+                    low_cpu_mem_usage=True,
+                    trust_remote_code=True,
+                )
                 task = "text-generation"
-            # Use CPU by default to avoid CUDA kernel issues; opt-in to GPU via env
-            use_gpu = os.getenv("OSS_USE_GPU", "0") == "1" and torch.cuda.is_available()
+            # Use GPU by default if available on this function
+            env_flag = os.getenv("OSS_USE_GPU")
+            use_gpu = (env_flag is None or env_flag == "1") and torch.cuda.is_available()
             if use_gpu:
-                mdl = mdl.to("cuda")
+                try:
+                    mdl = mdl.to(dtype=torch.float16, device="cuda")
+                except Exception:
+                    mdl = mdl.to("cuda")
                 _GEN_PIPE = pipeline(
                     task,
                     model=mdl,
