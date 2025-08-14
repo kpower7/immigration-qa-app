@@ -35,7 +35,8 @@ class ChatResponse(BaseModel):
         "sentencepiece"  # Often needed for newer models
     ]),
     gpu=modal.gpu.A10G(),  # Adjust GPU type as needed
-    timeout=300,
+    timeout=25,
+    keep_warm=1,  # Keep 1 instance warm to avoid cold starts
 )
 @modal.web_endpoint(method="POST")
 def web(request: ChatRequest) -> ChatResponse:
@@ -46,9 +47,8 @@ def web(request: ChatRequest) -> ChatResponse:
     from transformers import AutoTokenizer, AutoModelForCausalLM
     import torch
     
-    # Use a more capable model - you can replace this with the actual GPT-OSS model
-    # For now, using a publicly available model that works well
-    model_name = "microsoft/DialoGPT-large"  # Replace with actual GPT-OSS model path/name
+    # Use a smaller, faster model for production speed
+    model_name = "microsoft/DialoGPT-small"  # Much faster than large model
     
     try:
         # Load model and tokenizer (cached after first load)
@@ -72,16 +72,18 @@ def web(request: ChatRequest) -> ChatResponse:
         # Tokenize input
         inputs = tokenizer.encode(conversation, return_tensors="pt", max_length=1024, truncation=True)
         
-        # Generate response
+        # Generate response (optimized for speed)
         with torch.no_grad():
             outputs = model.generate(
                 inputs,
-                max_length=inputs.shape[1] + 150,
+                max_new_tokens=50,  # Limit to 50 new tokens for speed
                 temperature=request.temperature,
                 do_sample=True,
                 pad_token_id=tokenizer.pad_token_id,
                 eos_token_id=tokenizer.eos_token_id,
-                num_return_sequences=1
+                num_return_sequences=1,
+                early_stopping=True,  # Stop early when EOS is generated
+                num_beams=1,  # Use greedy search for speed
             )
         
         # Decode response
