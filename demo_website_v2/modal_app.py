@@ -23,11 +23,11 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     text: str
     model: str
- 
- # Generation pipeline cache (initialized on first request)
- _GEN_PIPE = None
- _GEN_TOKENIZER = None
- 
+
+# Generation pipeline cache (initialized on first request)
+_GEN_PIPE = None
+_GEN_TOKENIZER = None
+
 # Modal function with web endpoint
 @app.function(
     image=modal.Image.debian_slim().pip_install([
