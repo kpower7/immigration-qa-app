@@ -49,37 +49,54 @@ def web(request: ChatRequest) -> ChatResponse:
     """
     import os
     import torch
-    from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+    from transformers import (
+        AutoTokenizer,
+        AutoModelForCausalLM,
+        AutoModelForSeq2SeqLM,
+        AutoConfig,
+        pipeline,
+    )
  
-    # Small, fast default; can be overridden via env
-    model_name = os.getenv("OSS_MODEL_NAME", "microsoft/DialoGPT-small")
+    # Small, fast default; can be overridden via request.model or env
+    # We'll compute model_name when building the pipeline so switching models works.
  
     try:
         # Lazy-load and cache the pipeline across invocations
-        global _GEN_PIPE, _GEN_TOKENIZER
-        if _GEN_PIPE is None:
+        global _GEN_PIPE, _GEN_TOKENIZER, _GEN_MODEL_NAME
+        # Determine which model to use for this request
+        raw_requested = (getattr(request, "model", None) or "").strip()
+        model_name = raw_requested or os.getenv("OSS_MODEL_NAME", "Qwen/Qwen2.5-0.5B-Instruct")
+        if (_GEN_PIPE is None) or (_GEN_MODEL_NAME != model_name):
             tok = AutoTokenizer.from_pretrained(model_name)
-            if tok.pad_token is None:
+            if tok.pad_token is None and tok.eos_token is not None:
                 tok.pad_token = tok.eos_token
-            mdl = AutoModelForCausalLM.from_pretrained(model_name)
+            cfg = AutoConfig.from_pretrained(model_name)
+            is_seq2seq = bool(getattr(cfg, "is_encoder_decoder", False))
+            if is_seq2seq:
+                mdl = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+                task = "text2text-generation"
+            else:
+                mdl = AutoModelForCausalLM.from_pretrained(model_name)
+                task = "text-generation"
             # Use CPU by default to avoid CUDA kernel issues; opt-in to GPU via env
             use_gpu = os.getenv("OSS_USE_GPU", "0") == "1" and torch.cuda.is_available()
             if use_gpu:
                 mdl = mdl.to("cuda")
                 _GEN_PIPE = pipeline(
-                    "text-generation",
+                    task,
                     model=mdl,
                     tokenizer=tok,
                     device=0,
                 )
             else:
                 _GEN_PIPE = pipeline(
-                    "text-generation",
+                    task,
                     model=mdl,
                     tokenizer=tok,
                     device=-1,
                 )
             _GEN_TOKENIZER = tok
+            _GEN_MODEL_NAME = model_name
  
         # Build a simple conversation prompt
         parts = []
