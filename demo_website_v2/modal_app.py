@@ -91,15 +91,39 @@ def web(request: ChatRequest) -> ChatResponse:
         parts.append("Assistant:")
         prompt = "\n".join(parts)
  
+        # Truncate to fit model context window to avoid index errors
+        try:
+            cfg = _GEN_PIPE.model.config
+            max_ctx = (
+                getattr(cfg, "n_positions", None)
+                or getattr(cfg, "max_position_embeddings", None)
+                or getattr(cfg, "max_sequence_length", None)
+            )
+        except Exception:
+            max_ctx = None
+        # Use smaller generation and a safety buffer to avoid hitting the edge
+        max_new = 64
+        if not isinstance(max_ctx, int) or max_ctx <= 0:
+            max_ctx = 1024  # safe default for GPT2/DialoGPT family
+        safety_buf = 32
+        max_input_tokens = max(1, max_ctx - max_new - safety_buf)
+        ids = _GEN_TOKENIZER(prompt, add_special_tokens=False).input_ids
+        if len(ids) > max_input_tokens:
+            ids = ids[-max_input_tokens:]
+            prompt = _GEN_TOKENIZER.decode(ids, skip_special_tokens=True)
+
         # Generate with safe defaults
         out = _GEN_PIPE(
             prompt,
-            max_new_tokens=120,
+            max_new_tokens=max_new,
             do_sample=True,
             temperature=max(0.01, min(float(request.temperature or 0.3), 1.5)),
             eos_token_id=_GEN_TOKENIZER.eos_token_id,
             pad_token_id=_GEN_TOKENIZER.pad_token_id,
             return_full_text=False,
+            # Some transformer versions accept this and will tokenize with truncation
+            # If unsupported, it will be ignored harmlessly.
+            truncation=True,
         )
  
         text = (out[0]["generated_text"] if isinstance(out, list) and out else "").strip()
