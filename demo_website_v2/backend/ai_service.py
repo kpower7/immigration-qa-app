@@ -58,14 +58,11 @@ def call_modal_generate(
             "MODAL_WEB_URL is not set. Configure your Modal web endpoint and set MODAL_WEB_URL in env."
         )
 
-    # Normalize base URL (allow either full /generate path or base)
+    # Normalize base URL (remove trailing slash)
     if modal_url.endswith("/"):
         modal_url = modal_url[:-1]
-    # Allow user to set either base or full path. Try /generate if base is given
-    if not modal_url.rsplit("/", 1)[-1].startswith("generate"):
-        url = f"{modal_url}/generate"
-    else:
-        url = modal_url
+    # Modal web endpoints are at the root path, not /generate
+    url = modal_url
 
     payload: Dict[str, Any] = {
         "model": model or settings.DEFAULT_OSS_MODEL,
