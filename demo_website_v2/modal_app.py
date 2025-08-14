@@ -23,7 +23,11 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     text: str
     model: str
-
+ 
+ # Generation pipeline cache (initialized on first request)
+ _GEN_PIPE = None
+ _GEN_TOKENIZER = None
+ 
 # Modal function with web endpoint
 @app.function(
     image=modal.Image.debian_slim().pip_install([
@@ -41,80 +45,65 @@ class ChatResponse(BaseModel):
 @modal.web_endpoint(method="POST")
 def web(request: ChatRequest) -> ChatResponse:
     """
-    Web endpoint that receives chat requests and returns responses
-    This is what your FastAPI backend calls at /generate
+    Web endpoint that receives chat requests and returns responses.
+    This is what your FastAPI backend calls.
     """
-    from transformers import AutoTokenizer, AutoModelForCausalLM
+    import os
     import torch
-    
-    # Use a smaller, faster model for production speed
-    model_name = "microsoft/DialoGPT-small"  # Much faster than large model
-    
+    from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+ 
+    # Small, fast default; can be overridden via env
+    model_name = os.getenv("OSS_MODEL_NAME", "microsoft/DialoGPT-small")
+ 
     try:
-        # Load model and tokenizer (cached after first load)
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForCausalLM.from_pretrained(model_name)
-        
-        # Set pad token if not set
-        if tokenizer.pad_token is None:
-            tokenizer.pad_token = tokenizer.eos_token
-        
-        # Process messages into conversation format
-        conversation = ""
-        if request.system_prompt:
-            conversation += f"System: {request.system_prompt}\n"
-        
-        for msg in request.messages:
-            conversation += f"{msg.role.capitalize()}: {msg.content}\n"
-        
-        conversation += "Assistant:"
-        
-        # Tokenize input
-        inputs = tokenizer.encode(conversation, return_tensors="pt", max_length=1024, truncation=True)
-        
-        # Generate response (optimized for speed)
-        with torch.no_grad():
-            outputs = model.generate(
-                inputs,
-                max_new_tokens=50,  # Limit to 50 new tokens for speed
-                temperature=request.temperature,
-                do_sample=True,
-                pad_token_id=tokenizer.pad_token_id,
-                eos_token_id=tokenizer.eos_token_id,
-                num_return_sequences=1,
-                early_stopping=True,  # Stop early when EOS is generated
-                num_beams=1,  # Use greedy search for speed
+        # Lazy-load and cache the pipeline across invocations
+        global _GEN_PIPE, _GEN_TOKENIZER
+        if _GEN_PIPE is None:
+            tok = AutoTokenizer.from_pretrained(model_name)
+            if tok.pad_token is None:
+                tok.pad_token = tok.eos_token
+            mdl = AutoModelForCausalLM.from_pretrained(model_name)
+            device = 0 if torch.cuda.is_available() else -1
+            _GEN_PIPE = pipeline(
+                "text-generation",
+                model=mdl,
+                tokenizer=tok,
+                device=device,
             )
-        
-        # Decode response (fix index out of range error)
-        try:
-            # Get only the newly generated tokens
-            new_tokens = outputs[0][inputs.shape[1]:]
-            response = tokenizer.decode(new_tokens, skip_special_tokens=True)
-            response = response.strip()
-        except (IndexError, RuntimeError) as e:
-            # Fallback: decode the full output and extract the response part
-            full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-            # Try to extract just the assistant's response
-            if "Assistant:" in full_response:
-                response = full_response.split("Assistant:")[-1].strip()
-            else:
-                response = "I understand your question about immigration. Let me help you with that."
-        
-        # Fallback if response is empty
-        if not response:
-            response = "I understand your message. How can I help you further?"
-        
-        return ChatResponse(
-            text=response,
-            model=request.model or "gpt-oss-120b"
+            _GEN_TOKENIZER = tok
+ 
+        # Build a simple conversation prompt
+        parts = []
+        if request.system_prompt:
+            parts.append(f"System: {request.system_prompt}")
+        for msg in request.messages:
+            role = (msg.role or "user").capitalize()
+            parts.append(f"{role}: {msg.content}")
+        parts.append("Assistant:")
+        prompt = "\n".join(parts)
+ 
+        # Generate with safe defaults
+        out = _GEN_PIPE(
+            prompt,
+            max_new_tokens=120,
+            do_sample=True,
+            temperature=max(0.01, min(float(request.temperature or 0.3), 1.5)),
+            eos_token_id=_GEN_TOKENIZER.eos_token_id,
+            pad_token_id=_GEN_TOKENIZER.pad_token_id,
+            return_full_text=False,
         )
-        
+ 
+        text = (out[0]["generated_text"] if isinstance(out, list) and out else "").strip()
+        if not text:
+            # Fallback: try extracting after "Assistant:" if full text returned
+            maybe_full = out[0]["generated_text"] if isinstance(out, list) and out else ""
+            text = maybe_full.split("Assistant:")[-1].strip() if "Assistant:" in maybe_full else ""
+        if not text:
+            text = "I understand your message. How can I help you further?"
+ 
+        return ChatResponse(text=text, model=request.model or "gpt-oss-120b")
+ 
     except Exception as e:
-        # Error handling - return error message
-        return ChatResponse(
-            text=f"Error processing request: {str(e)}",
-            model=request.model or "gpt-oss-120b"
-        )
+        return ChatResponse(text=f"Error processing request: {str(e)}", model=request.model or "gpt-oss-120b")
 
 
