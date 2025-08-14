@@ -43,8 +43,10 @@ MODEL_ALIASES = {
         "accelerate",
         "pydantic",
         "fastapi",
-        "sentencepiece"  # Often needed for newer models
+        "sentencepiece",  # Often needed for newer models
+        "openai"
     ]),
+    secrets=[modal.Secret.from_name("openai")],  # expects OPENAI_API_KEY
     gpu=modal.gpu.A10G(),  # Use a single A10G; scale later if needed
     timeout=120,
     keep_warm=1,  # Keep 1 instance warm to avoid cold starts
@@ -69,6 +71,45 @@ def web(request: ChatRequest) -> ChatResponse:
     # We'll compute model_name when building the pipeline so switching models works.
  
     try:
+        # If an OpenAI API key is present, use OpenAI Chat API for higher quality and reliability
+        openai_key = os.getenv("OPENAI_API_KEY")
+        if openai_key:
+            try:
+                from openai import OpenAI
+                client = OpenAI()
+                # Determine OpenAI model: honor explicit OpenAI names; alias gpt-oss-120b -> gpt-4o-mini
+                raw_requested = (getattr(request, "model", None) or "").strip()
+                if raw_requested in ("gpt-oss-120b", "gpt-oss"):
+                    openai_model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+                elif raw_requested and (raw_requested.startswith("gpt-") or raw_requested.startswith("o4") or raw_requested.startswith("gpt-4o")):
+                    openai_model = raw_requested
+                else:
+                    openai_model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+
+                # Build OpenAI messages
+                oai_messages = []
+                if request.system_prompt:
+                    oai_messages.append({"role": "system", "content": request.system_prompt})
+                for msg in request.messages:
+                    role = (msg.role or "user")
+                    content = msg.content
+                    if isinstance(content, str) and content:
+                        oai_messages.append({"role": role, "content": content})
+
+                resp = client.chat.completions.create(
+                    model=openai_model,
+                    messages=oai_messages,
+                    temperature=float(request.temperature or 0.2),
+                    max_tokens=256,
+                )
+                text = (resp.choices[0].message.content or "").strip()
+                if not text:
+                    text = "I'm sorry, I could not generate an answer at this time."
+                return ChatResponse(text=text, model=openai_model)
+            except Exception as oe:
+                # If OpenAI call fails, fall back to local model path below
+                pass
+
         # Lazy-load and cache the pipeline across invocations
         global _GEN_PIPE, _GEN_TOKENIZER, _GEN_MODEL_NAME
         # Determine which model to use for this request
