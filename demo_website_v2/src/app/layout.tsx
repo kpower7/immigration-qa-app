@@ -6,9 +6,9 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MLB Analyst & Betting Assistant",
+  title: "Immigration Voice Assistant — USCIS Policy Navigator",
   description:
-    "Real-time MLB voice agent with FastAPI backend for schedule, stats, news, and YouTube analysis. Clear betting leans and scouting insights.",
+    "Real-time immigration voice assistant with USCIS Policy Manual + Forms Instructions and tools for news and form lookups.",
   metadataBase: new URL("https://example.com"),
   robots: { index: true, follow: true },
 };
