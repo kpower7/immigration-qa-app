@@ -7,7 +7,7 @@ from typing import Dict, List, Optional, Tuple
 
 import requests
 
-from news_service import get_team_search_terms
+from .news_service import get_team_search_terms
 
 logger = logging.getLogger(__name__)
 

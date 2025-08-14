@@ -111,46 +111,8 @@ export default function ImmigrationPage() {
       if (timer) clearInterval(timer);
     };
   }, [sessionId, polling]);
-
-  // Ensure ElevenLabs widget is inside our chat container and not floating
-  useEffect(() => {
-    let raf: number | undefined;
-    const placeWidget = () => {
-      const container = document.getElementById("my-chat-container");
-      if (!container) {
-        raf = requestAnimationFrame(placeWidget);
-        return;
-      }
-      // Prefer inline element inside the container
-      const inline = container.querySelector("elevenlabs-convai, elevenlabs-conversational-ai") as HTMLElement | null;
-      if (inline) {
-        inline.style.position = "relative";
-        inline.style.bottom = "";
-        inline.style.right = "";
-        inline.style.margin = "0";
-        inline.style.width = "100%";
-        inline.style.height = "100%";
-        return; // Already in place
-      }
-      // Fallback: grab any existing floating instance and move it into the container
-      const floating = document.querySelector("elevenlabs-convai, elevenlabs-conversational-ai") as HTMLElement | null;
-      if (floating && !container.contains(floating)) {
-        floating.style.position = "relative";
-        floating.style.bottom = "";
-        floating.style.right = "";
-        floating.style.margin = "0";
-        floating.style.width = "100%";
-        floating.style.height = "100%";
-        container.appendChild(floating);
-        return;
-      }
-      raf = requestAnimationFrame(placeWidget);
-    };
-    raf = requestAnimationFrame(placeWidget);
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [agentId]);
+ 
+  // Legacy voice widget effect removed
 
   const parsed = useMemo(() => {
     // Normalize events by type for rendering
@@ -242,7 +204,7 @@ export default function ImmigrationPage() {
             </ul>
           </section>
           {/* Removed quick demo and tips boxes for a cleaner layout */}
-          {/* ElevenLabs chat widget */}
+          {/* Chat section */}
           <div className="card p-0 overflow-hidden">
             <div className="px-6 py-4 border-b border-blue-500/20">
               <h3 className="text-lg font-semibold text-cyan-300">Chat</h3>
@@ -255,8 +217,8 @@ export default function ImmigrationPage() {
                 <li>Enable polling if you prefer automatic updates</li>
               </ul>
             </div>
-          </section>
-          <section className="grid md:grid-cols-2 gap-6">
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
             <div className="card p-6">
               <h3 className="text-lg font-semibold text-cyan-300 mb-2">Good queries</h3>
               <ul className="text-gray-300 list-disc list-inside space-y-1">
@@ -273,7 +235,7 @@ export default function ImmigrationPage() {
                 <li>Always confirm details on official USCIS pages</li>
               </ul>
             </div>
-          </section>
+          </div>
           {/* Deprecated: Voice widget removed */}
           <div className="card p-6 text-center">
             <p className="text-gray-300 mb-3">This legacy voice page has been removed.</p>

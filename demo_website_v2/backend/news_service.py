@@ -7,7 +7,7 @@ from typing import List, Optional
 
 from newsapi import NewsApiClient
 
-from config import settings
+from .config import settings
 
 logger = logging.getLogger(__name__)
 

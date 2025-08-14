@@ -6,14 +6,14 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 import os
 
-from config import settings
-from mlb_service import resolve_team_id, find_next_game, get_schedule, compare_teams, GameInfo
-from news_service import NewsService, NewsArticle
-from forms_service import find_form_links, FormLinks
-from youtube_service import search_videos, VideoItem
-from sports_data_service import SportsDataService
-from ai_service import call_modal_generate
-from rag_store import retrieve_context
+from .config import settings
+from .mlb_service import resolve_team_id, find_next_game, get_schedule, compare_teams, GameInfo
+from .news_service import NewsService, NewsArticle
+from .forms_service import find_form_links, FormLinks
+from .youtube_service import search_videos, VideoItem
+from .sports_data_service import SportsDataService
+from .ai_service import call_modal_generate
+from .rag_store import retrieve_context
 
 load_dotenv()
 app = FastAPI(title="Hackathon AI Backend", version="0.1.0")
@@ -207,7 +207,7 @@ def _mark_session_active(session_id: str) -> None:
 def _get_active_session(max_age_seconds: int = 300) -> Optional[str]:
     """Return the most recently active UI session if it's fresh enough.
 
-    This allows server-initiated tool calls (e.g., from ElevenLabs) that do not
+    This allows server-initiated tool calls (e.g., from external integrations) that do not
     include a session_id to still update the currently active UI session.
     """
     if _LAST_ACTIVE_SESSION_ID and _LAST_ACTIVE_SESSION_TS:

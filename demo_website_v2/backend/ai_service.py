@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional
 import os
 import httpx
 
-from config import settings
+from .config import settings
 
 
 def _extract_text(resp_json: Dict[str, Any]) -> str:
@@ -40,6 +40,20 @@ def call_modal_generate(
     """
     modal_url = settings.MODAL_WEB_URL or os.getenv("MODAL_WEB_URL")
     if not modal_url:
+        # Development-friendly fallback so local RAG flows can be tested without a live LLM.
+        # Set OSS_DEV_STUB=0 to disable this behavior and enforce configuration.
+        if os.getenv("OSS_DEV_STUB", "1") == "1":
+            # Use the last user message content as an echo so callers see end-to-end plumbing.
+            last_user = ""
+            for m in reversed(messages):
+                if m.get("role") == "user" and isinstance(m.get("content"), str):
+                    last_user = m["content"]
+                    break
+            snippet = last_user.strip()[:1200]
+            return (
+                "[DEV STUB] MODAL_WEB_URL not set. Returning a placeholder answer based on the provided input.\n\n"
+                + snippet
+            )
         raise RuntimeError(
             "MODAL_WEB_URL is not set. Configure your Modal web endpoint and set MODAL_WEB_URL in env."
         )

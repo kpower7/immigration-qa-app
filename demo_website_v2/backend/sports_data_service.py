@@ -5,8 +5,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import List, Optional, Dict
 
-from news_service import NewsService, NewsArticle, get_team_search_terms
-from youtube_service import search_videos, VideoItem
+from .news_service import NewsService, NewsArticle, get_team_search_terms
+from .youtube_service import search_videos, VideoItem
 
 logger = logging.getLogger(__name__)
 
