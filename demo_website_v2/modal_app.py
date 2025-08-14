@@ -38,7 +38,6 @@ _GEN_TOKENIZER = None
         "fastapi",
         "sentencepiece"  # Often needed for newer models
     ]),
-    gpu=modal.gpu.A10G(),  # Adjust GPU type as needed
     timeout=25,
     keep_warm=1,  # Keep 1 instance warm to avoid cold starts
 )
@@ -63,13 +62,23 @@ def web(request: ChatRequest) -> ChatResponse:
             if tok.pad_token is None:
                 tok.pad_token = tok.eos_token
             mdl = AutoModelForCausalLM.from_pretrained(model_name)
-            device = 0 if torch.cuda.is_available() else -1
-            _GEN_PIPE = pipeline(
-                "text-generation",
-                model=mdl,
-                tokenizer=tok,
-                device=device,
-            )
+            # Use CPU by default to avoid CUDA kernel issues; opt-in to GPU via env
+            use_gpu = os.getenv("OSS_USE_GPU", "0") == "1" and torch.cuda.is_available()
+            if use_gpu:
+                mdl = mdl.to("cuda")
+                _GEN_PIPE = pipeline(
+                    "text-generation",
+                    model=mdl,
+                    tokenizer=tok,
+                    device=0,
+                )
+            else:
+                _GEN_PIPE = pipeline(
+                    "text-generation",
+                    model=mdl,
+                    tokenizer=tok,
+                    device=-1,
+                )
             _GEN_TOKENIZER = tok
  
         # Build a simple conversation prompt
