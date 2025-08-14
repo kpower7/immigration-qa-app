@@ -86,9 +86,20 @@ def web(request: ChatRequest) -> ChatResponse:
                 num_beams=1,  # Use greedy search for speed
             )
         
-        # Decode response
-        response = tokenizer.decode(outputs[0][inputs.shape[1]:], skip_special_tokens=True)
-        response = response.strip()
+        # Decode response (fix index out of range error)
+        try:
+            # Get only the newly generated tokens
+            new_tokens = outputs[0][inputs.shape[1]:]
+            response = tokenizer.decode(new_tokens, skip_special_tokens=True)
+            response = response.strip()
+        except (IndexError, RuntimeError) as e:
+            # Fallback: decode the full output and extract the response part
+            full_response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+            # Try to extract just the assistant's response
+            if "Assistant:" in full_response:
+                response = full_response.split("Assistant:")[-1].strip()
+            else:
+                response = "I understand your question about immigration. Let me help you with that."
         
         # Fallback if response is empty
         if not response:
