@@ -1,0 +1,30 @@
+In addition, annual reports should include audited or reviewed financial statements for the past year .
+Federal T ax Returns
+In general, organizations conducting business in the United States must file federal tax returns each
+year. Federal tax returns are designed to present information in a manner that is similar to the income
+statement and balance sheet format.
+Internal Revenue Service (IRS) Tax Returns: Form Numbers and Corresponding Information Provided
+If organization is
+a…Tax return is Form…Tax return provides
+a modified income
+statementTax return provides a
+modified
+balance sheet
+Corporation 1120 or 1 120EZ X X
+S Corporation 1120S or 1 120EZ X X
+Partnership 1065 X X
+Sole
+Proprietorship1040, with Schedule C X  
+Non-Profit 990 or 990EZ X X
+Limited Liability
+Company (LLC)1120 or 1065 (may be 1040
+with Schedule C for a single
+member LLC owned by a
+person)X  
+Foreign T ax Documentation
+Officers should consider the following regarding foreign tax documentation:
+The petitioner may provide copies of foreign tax returns as evidence of the business activities of
+the foreign entity;8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 510/2618
+
+--- Page 511 ---

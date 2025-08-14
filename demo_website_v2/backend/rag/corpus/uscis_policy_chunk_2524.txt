@@ -1,0 +1,33 @@
+status application is not relevant for the CSP A age calculation.[29]
+Example
+The alien is 21 years and 4 months old when USCIS considers an immigrant visa available. The
+alien’ s underlying petition was pending for 6 months. The alien’ s CSP A age is calculated as follows:
+21 years and 4 months - 6 months = 20 years and 10 months
+Therefore, the alien’ s CSP A age is under 21.
+If an alien has multiple approved petitions, the alien’ s CSP A age is calculated using the petition that
+forms the underlying basis for the adjustment of status application. This also applies to circumstances
+when USCIS approves a request to transfer the underlying basis of a pending adjustment of status
+application to a dif ferent immigrant category based on another approved petition. The alien’ s CSP A
+age is calculated using the approved petition that forms the new basis of the adjustment of status
+application.[30]
+Example
+An alien is listed as a derivative beneficiary on an approved Form I-140  filed by the principal
+beneficiary’ s employer . The employer rescinds the principal beneficiary’ s job of fer, but he or she
+receives a job of fer from a second employer . The second employer files a new Form I-140 for the
+principal beneficiary , and the alien is listed as a derivative beneficiary on this second approved Form
+I-140. The principal beneficiary files an adjustment of status application based on the second Form I-
+140 and is approved. The alien also files an adjustment of status application based on the second
+Form I-140.
+The alien’ s CSP A age is calculated using the petition underlying the principal beneficiary’ s adjustment
+of status application, in other words, the second Form I-140 . The alien may be eligible to retain the
+priority date from the first Form I-140, but the CSP A calculation uses the second petition, because this
+is the petition through which the principal beneficiary obtained adjustment of status and that forms the
+basis for the alien’ s adjustment of status application.
+3. Determining Length of T ime Petition W as Pending
+For aliens applying for adjustment of status under the family and employment-based preference
+categories, the length of time a petition was pending (pending time) is the number of days between the
+date that it is properly filed (filing date)[31] and the approval date. The formula for determining the
+length of time the petition was pending is as follows:
+Approval Date - Filing Date = Pending Time
+Example8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1479/2618

@@ -1,0 +1,32 @@
+[^ 30]  See Chapter 3, Applicability of Medical Examination and V accination Requirement [ 8 USCIS-PM
+B.3] for more information on these special considerations.
+Chapter 5 - Review of Overall Findings
+A. Overall Finding of Admissibility
+The civil surgeon should properly complete the part addressing when the medical examinations and
+any follow-up examinations took place. The civil surgeon should also mark the appropriate boxes in
+the “Summary of Overall Findings” section. 
+If the summary indicates a Class A condition, the of ficer should ensure that the findings in the other
+form sections correspond. If they do correspond, the applicant is inadmissible. If there is conflicting
+information, the of ficer should return the form to the applicant for corrective action. 
+If the civil surgeon omits the summary finding entirely , the of ficer should check the findings in the other
+form sections to determine whether the applicant has a Class A condition. If all sections are properly
+completed, and no Class A condition has been indicated by the civil surgeon, the of ficer should
+not issue a Request for Evidence (RFE) and instead proceed with the adjudication.
+If the of ficer is unable to determine whether the applicant has a Class A condition based on the other
+form sections, the of ficer should return the form to the applicant for corrective action. The RFE should
+be sent to the applicant directing him or her to return to the civil surgeon to correct the form. 
+B. Changes to the Summary Findings
+The Technical Instructions direct civil surgeons to treat Class A communicable diseases of public
+health significance or refer the applicant for treatment. Generally , the civil surgeon can only sign of f
+upon completion of the treatment. This is why the of ficer may encounter a summary finding that has
+been reclassified from a “Class A condition” to a “Class B” or “No Class A or Class B” condition.
+The of ficer should not reject the form because of the reclassification as long as the information is
+consistent with the information otherwise provided in the medical examination documentation. In such
+cases, the applicant is not inadmissible on health-related grounds.
+For example, a civil surgeon may initially annotate the summary section with a Class A condition but,
+following treatment, change the annotation to a Class B condition. In this instance, the summary
+section may indicate an earlier Class A condition, followed by a later Class B determination. Since the
+civil surgeon indicated on the Report of Immigration Medical Examination and V accination Record
+(Form I-693 ) that a former Class A condition is now a Class B condition, the applicant is not
+inadmissible on health-related grounds. 8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1908/2618

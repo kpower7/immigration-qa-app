@@ -1,0 +1,35 @@
+Example: Ef fect of Unauthorized Employment on Eligibility for INA  245(k) Exemption
+Date Event
+January 1, 2010 An alien is admitted as a B-2 nonimmigrant visitor for pleasure. 
+June 1, 2010The B-2 nonimmigrant begins work for an employer on a one-month
+contract, without first obtaining work authorization.
+July 1, 2010 The B-2 nonimmigrant’ s contract with the employer ends.
+September 1, 2010The B-2 nonimmigrant submits an adjustment application with the
+employer ’s immigrant petition seeking EB-3 classification for the B-2
+nonimmigrant.
+February 28, 201 1The B-2 nonimmigrant’ s authorized stay expires, as indicated on the
+Arrival/Departure Record (Form I-94). 
+In this example, the applicant’ s work results in three separate immigration violations: The
+applicant engaged in unauthorized employment, violated the terms and conditions of his nonimmigrant
+admission, and failed to continuously maintain a lawful status. Since these three violations occur on
+the same days, they are only counted once. Therefore, these immigration violations add up to 30
+days, counting from June 1 through June 30. 
+Once the applicant began to work without authorization on June 1, he stopped maintaining a lawful
+status. The failure to continuously maintain a lawful status continues until the applicant files a properly
+filed adjustment application on September 1, totaling 92 days without lawful status. Because the time
+period from June 1 through June 30 was already counted for the three violations above, the failure to
+continuously maintain lawful status only adds 62 days, counting from July 1 through August 31.
+If USCIS approves the applicant’ s petition for EB-3 immigrant visa classification, he is eligible for
+the INA 245(k)  exemption. The applicant’ s immigration violations total 92 days and therefore do not
+exceed the 180-day limit. The applicant meets the eligibility requirements for the exemption and is not
+barred from adjustment by INA 245(c)(2) , INA 245(c)(7) , or INA 245(c)(8)  bars, which would otherwise
+apply .
+Example: Ef fect of Immigration V iolations on INA  245(k) Exemption Eligibility where V iolations
+Occurred During Dif ferent Periods of Stay
+Date Event
+December 1, 2007 An alien is admitted to the United States as a B-2 nonimmigrant.
+June 1, 2008The alien's B-2 nonimmigrant status expires, as evidenced by the
+Arrival/Departure Record.
+September 10, 2008 The alien leaves the United States.
+January 1, 2009 An employer files an H-1B petition for the alien.8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1598/2618

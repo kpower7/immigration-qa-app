@@ -1,0 +1,30 @@
+number to aid in the ef ficient resolution of a case or as a method to expedite delivery of requested
+documents or information. Documents should not be submitted by fax unless specifically requested by
+a USCIS employee.
+Footnotes
+[^ 1] See Chapter 7, Privacy and Confidentiality [ 1 USCIS-PM A.7].
+[^ 2] See the Field Of fices webpage.
+[^ 3] See the Password Resets and Technical Support  webpage. 
+[^ 4] See Chapter 7, Privacy and Confidentiality [ 1 USCIS-PM A.7].
+[^ 5] IVR is an automated phone system technology that allows callers to access information through a
+voice response system without speaking to a person.
+[^ 6] See Section B, Online [ 1 USCIS-PM A.3(B) ].
+Chapter 4 - Service Request Management Tool
+If a benefit requestor or interested party who is entitled to receive the requested case-specific
+information needs assistance on a specific case,[1] they may place a service request with USCIS for
+certain applications, petitions, and services.[2] The Service Request Management Tool (SRMT)
+enables USCIS to record and transfer unresolved requests to the appropriate USCIS service center ,
+National Benefits Center , domestic USCIS field of fice, USCIS asylum of fice, Administrative Appeals
+Office, or other USCIS entity where the benefit request is pending a decision or was adjudicated.
+USCIS of fers online tools and resources  to deliver the information benefit requestors and interested
+parties need without having to call USCIS or create a service request. Benefit requestors who have a
+USCIS online account can utilize self-service options that may make it unnecessary to submit a
+service request. Self-service options allow certain benefit requestors to change their address,
+reschedule their biometrics appointment, access enhanced case processing time information for
+certain case types, and access receipt notices, requests for evidence, and other correspondence from
+USCIS.
+A. Creating Service Requests
+1. By USCIS Customer Service
+If an inquiry received by the USCIS Contact Center cannot be resolved through secure messaging in
+the benefit requestor ’s USCIS online account  or during the call and the inquiry warrants creation of a8/13/25, 3:54 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 161/2618

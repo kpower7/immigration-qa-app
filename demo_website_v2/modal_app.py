@@ -31,7 +31,8 @@ class ChatResponse(BaseModel):
         "torch",
         "accelerate",
         "pydantic",
-        "fastapi"
+        "fastapi",
+        "sentencepiece"  # Often needed for newer models
     ]),
     gpu=modal.gpu.A10G(),  # Adjust GPU type as needed
     timeout=300,
@@ -42,68 +43,65 @@ def web(request: ChatRequest) -> ChatResponse:
     Web endpoint that receives chat requests and returns responses
     This is what your FastAPI backend calls at /generate
     """
-    # For now, return a simple response
-    # You can replace this with actual model inference
-    
-    # Extract the last user message
-    user_messages = [msg for msg in request.messages if msg.role == "user"]
-    last_message = user_messages[-1].content if user_messages else "Hello"
-    
-    # Simple response for testing
-    response_text = f"[Modal GPT-OSS-120b] I received your message: '{last_message}'. This is a test response from Modal deployment."
-    
-    return ChatResponse(
-        text=response_text,
-        model=request.model or "gpt-oss-120b"
-    )
-
-# Alternative function for actual model inference (commented out for now)
-"""
-@app.function(
-    image=modal.Image.debian_slim().pip_install([
-        "transformers",
-        "torch",
-        "accelerate",
-        "pydantic",
-        "fastapi"
-    ]),
-    gpu=modal.gpu.A10G(),
-    timeout=300,
-)
-@modal.web_endpoint(method="POST")
-def web(request: ChatRequest) -> ChatResponse:
     from transformers import AutoTokenizer, AutoModelForCausalLM
     import torch
     
-    # Load model (this would be cached after first load)
-    model_name = "microsoft/DialoGPT-medium"  # Replace with actual model
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
+    # Use a more capable model - you can replace this with the actual GPT-OSS model
+    # For now, using a publicly available model that works well
+    model_name = "microsoft/DialoGPT-large"  # Replace with actual GPT-OSS model path/name
     
-    # Process messages
-    messages_text = ""
-    for msg in request.messages:
-        messages_text += f"{msg.role}: {msg.content}\n"
-    
-    if request.system_prompt:
-        messages_text = f"System: {request.system_prompt}\n" + messages_text
-    
-    # Generate response
-    inputs = tokenizer.encode(messages_text, return_tensors="pt")
-    
-    with torch.no_grad():
-        outputs = model.generate(
-            inputs,
-            max_length=inputs.shape[1] + 150,
-            temperature=request.temperature,
-            do_sample=True,
-            pad_token_id=tokenizer.eos_token_id
+    try:
+        # Load model and tokenizer (cached after first load)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        
+        # Set pad token if not set
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token
+        
+        # Process messages into conversation format
+        conversation = ""
+        if request.system_prompt:
+            conversation += f"System: {request.system_prompt}\n"
+        
+        for msg in request.messages:
+            conversation += f"{msg.role.capitalize()}: {msg.content}\n"
+        
+        conversation += "Assistant:"
+        
+        # Tokenize input
+        inputs = tokenizer.encode(conversation, return_tensors="pt", max_length=1024, truncation=True)
+        
+        # Generate response
+        with torch.no_grad():
+            outputs = model.generate(
+                inputs,
+                max_length=inputs.shape[1] + 150,
+                temperature=request.temperature,
+                do_sample=True,
+                pad_token_id=tokenizer.pad_token_id,
+                eos_token_id=tokenizer.eos_token_id,
+                num_return_sequences=1
+            )
+        
+        # Decode response
+        response = tokenizer.decode(outputs[0][inputs.shape[1]:], skip_special_tokens=True)
+        response = response.strip()
+        
+        # Fallback if response is empty
+        if not response:
+            response = "I understand your message. How can I help you further?"
+        
+        return ChatResponse(
+            text=response,
+            model=request.model or "gpt-oss-120b"
         )
-    
-    response = tokenizer.decode(outputs[0][inputs.shape[1]:], skip_special_tokens=True)
-    
-    return ChatResponse(
-        text=response.strip(),
-        model=request.model or "gpt-oss-120b"
-    )
-"""
+        
+    except Exception as e:
+        # Error handling - return error message
+        return ChatResponse(
+            text=f"Error processing request: {str(e)}",
+            model=request.model or "gpt-oss-120b"
+        )
+
+

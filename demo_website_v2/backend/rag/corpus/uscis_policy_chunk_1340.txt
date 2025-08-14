@@ -1,0 +1,33 @@
+required amount. The required amount automatically adjusts every 3 years by the Consumer Price
+Index for All Urban Consumers (CPI-U).[9]
+The following table outlines the required amount of investment in the start-up, which varies based on
+the date the applicant filed the Form I-941.
+Required Amount of Investment in the Start-up
+Filing Date Investment Amount
+Before October 1, 2021 $250,000
+October 1, 2021 through September 30, 2024 $264,147
+On or after October 1, 2024 $311,071
+Qualified Investment
+To be considered a qualified investment, the investment must be made in good faith and not be an
+attempt to circumvent any limitations imposed on investments under 8 CFR 212.19 . The investment
+must be lawfully derived capital in a start-up entity that is a purchase from such entity of its equity ,
+convertible debt, or other security convertible into its equity commonly used in financing transactions
+within such entity's industry .
+A qualified investment does not include an investment, directly or indirectly , from:
+The entrepreneur;
+The parents, spouse, brother , sister , son, or daughter of such entrepreneur; or
+Any corporation, limited liability company , partnership, or other entity in which such entrepreneur
+or the parents, spouse, brother , sister , son, or daughter of such entrepreneur directly or indirectly
+has any ownership interest.
+Qualified Investor
+While an applicant is not prohibited from personally investing in the start-up entity or otherwise
+securing additional funding, only investments from a qualified investor count towards the minimum
+investment amount.
+A qualified investor is an individual who is a U.S. citizen or lawful permanent resident (LPR) of the
+United States, or an organization that is located in the United States and operates through a legal
+entity organized under the laws of the United States or any state, that is majority owned and
+controlled, directly and indirectly , by U.S. citizens or LPRs of the United States.
+A qualified investor must also regularly make substantial investments in start-up entities that
+subsequently exhibit substantial growth in terms of revenue generation or job creation by
+demonstrating that during the preceding 5 years:8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 821/2618

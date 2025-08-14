@@ -1,0 +1,41 @@
+If the agent[30] also seeks to act in the capacity of an attorney or accredited representative of the
+surety company , the agent must also submit Form G-28.[31]
+If the surety company posts bonds through an agent, the agent becomes a co-obligor . This means that
+the agent is jointly and severally liable for the bond amount. If the alien breaches the condition of the
+bond by receiving public benefits above the threshold, either the surety company or the agent or both
+can be held liable for and up to the amount of the bond.
+Example
+Immigration Bonds, Inc. provides public charge bond services on behalf of Bank B, a Treasury-
+certified surety company . When submitting a public charge bond, Immigration Bonds, Inc. must submit
+Form I-945  and an original or a true copy (as defined under applicable state law) of the power of
+attorney that complies with the state laws governing the jurisdiction in which the power of attorney was
+executed. The power of attorney demonstrates that Immigration Bonds, Inc. is authorized to submit
+the bond on behalf of Bank B.
+By completing the Form I-945 , the agent must sign as a co-obligor on the bond. If Immigration Bonds,
+Inc. also acts as Bank B’ s attorney or accredited representative, Immigration Bonds, Inc., would also
+have to submit a properly completed Form G-28 . If the public charge bond is accepted, then
+Immigration Bonds, Inc. and Bank B become co-obligors on the public charge bond.
+If the public charge bond is breached because the alien does not comply with the bond conditions, the
+U.S. government may collect from either Immigration Bonds, Inc. or Bank B or both to obtain the full
+face value of the public charge bond.
+The following table illustrates the dif ferences between the public charge cash and surety bonds.
+Differences Between Cash and Surety Bonds
+ Cash Bond Surety Bond
+Who can post it?Natural person,
+including the alien; or
+Company or other
+entityCertified surety company; or
+The certified surety company’ s authorized
+agent
+The bond is
+posted by
+submitting what
+documents?Form I-945 ,
+completed in
+accordance with the
+form instructions;Form I-945 , completed in accordance with
+the form instructions;
+If submitted by an authorized agent of an
+acceptable surety company: power of
+attorney complying with state laws of8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 2033/2618

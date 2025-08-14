@@ -1,0 +1,36 @@
+application, then the alien is generally considered to be in unlawful immigration status as of the
+expiration of the alien's current nonimmigrant status and likewise on the date the adjustment
+application is filed. In this instance, the INA 245(c)(2)  bar would apply , unless an exemption is
+available. 
+The following scenario illustrates the distinction between lawful immigration status and a period of stay
+authorized by the Secretary of Homeland Security . The scenario provides an example of when an
+applicant may be considered to be in unlawful immigration status after filing multiple applications to
+extend and change status.
+Example: Ef fect of Multiple Applications to Extend or Change Status 
+Date Event
+September 28, 2007 An alien is admitted to the United States as a B-2 nonimmigrant visitor .
+March 16, 2008An employer timely filed an L-1 petition (Petition for a Nonimmigrant
+Worker ( Form I-129 ) for the B-2 nonimmigrant visitor , including a request
+on behalf of the nonimmigrant to change status to an L-1 nonimmigrant
+intracompany transferee nonimmigrant classification. 
+March 28, 2008The B-2 nonimmigrant visitor ’s authorized stay expires, as indicated on
+the Arrival/Departure Record (Form I-94).
+September 10, 2008The alien untimely filed an application to extend B-2 nonimmigrant
+visitor status after the employer receives a Request for Evidence (RFE) on
+the L-1 petition.
+December 7, 2008The RFE goes unanswered and USCIS denies the L-1 petition and the
+accompanying COS application.
+January 1 1, 2009The employer untimely files a second L-1 petition (Form I-129) for the
+alien.
+February 8, 2009USCIS denies the alien's application to extend B-2 nonimmigrant visitor
+status because it was filed after the expiration of his authorized stay . 
+February 1 1, 2009USCIS approves the second L-1 petition (Form I-129) for the alien but
+denies the accompanying application to change status from B-2
+nonimmigrant visitor to L-1 because the alien was out of status at the time
+the petition was filed. 
+This example highlights that an alien seeking an EOS or COS cannot indefinitely avoid any time out of
+or in violation of lawful status just because of a pending application to extend or change status. 
+When USCIS denied the first L-1 petition and COS application on December 7, 2008, the applicant
+was out of B-2 status as of March 29, 2008. Even though USCIS ultimately denied the first L-1 petition
+and COS request, the petition was timely filed. Accordingly , the petition provided the alien a period of8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1562/2618

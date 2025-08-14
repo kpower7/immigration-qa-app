@@ -18,7 +18,7 @@
 
 [[redirects]]
   from = "/demo"
-  to = "/voice-oss"
+  to = "/voice"
   status = 301
 
 [[redirects]]

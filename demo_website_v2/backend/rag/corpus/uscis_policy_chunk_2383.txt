@@ -1,0 +1,31 @@
+The CPR must file the Form I-290B with the appropriate fee[25] within 30 calendar days of the decision
+if the denial was delivered by personal service or within 33 calendar days of the decision if the denial
+was mailed. After the CPR files a motion to reopen or reconsider , USCIS decides whether there is
+sufficient justification for reopening the case. If so, USCIS renders a new decision on the merits of the
+reopened case.[26]
+G. Multiple Filings
+There are no regulatory limits on how many times a CPR may file Form I-751 . For example, a CPR
+who initially files a joint petition may subsequently file another joint petition or a waiver request.[27]
+USCIS reviews all prior filings before making a final decision on the new filing. The following sections
+outline how USCIS handles common multiple filing scenarios.
+1. Same Filing Basis
+Prior Abandonment Denial
+If USCIS receives a Form I-751  following the denial of a Form I-751 due to abandonment (resulting
+from, for example, a failure to appear for a biometrics or interview appointment or failure to respond to
+an RFE or NOID), USCIS adjudicates the new Form I-751 separately from the prior denial.
+Prior Denial for Cause
+If USCIS receives a Form I-751 following the denial for cause of a Form I-751 filed under the same
+basis, USCIS reviews the new Form I-751 to determine if the CPR has presented any new evidence.
+This evidence must be dif ferent from the evidence that the CPR presented with the previous Form I-
+751.
+If there is no new evidence, USCIS denies the new Form I-751, referencing the grounds of the
+previous denial in the notification.
+In cases where the subsequent Form I-751 contains new evidence but this new evidence does not
+establish the bona fides of the qualifying marriage or eligibility for the requested waiver , USCIS denies
+the Form I-751 and states the reasons for the denial in the notification.
+If USCIS determines the new evidence is suf ficient to overcome the reasons for the prior denial,
+USCIS approves the Form I-751.
+2. Different Filing Basis
+If USCIS receives a Form I-751  subsequent to the denial of a Form I-751  filed under a dif ferent basis,
+USCIS evaluates the new filing separately from the prior filing.8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1400/2618

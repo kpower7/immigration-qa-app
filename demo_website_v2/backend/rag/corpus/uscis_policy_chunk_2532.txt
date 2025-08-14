@@ -1,0 +1,33 @@
+Final Action Dates chart indicates that the alien’ s visa has become available. However , on July 1, the
+alien’ s visa retrogresses based on the Final Action Dates chart and the visa becomes unavailable.
+For this case, USCIS calculates the alien’ s CSP A age using May 1 as the visa availability date. If the
+alien’ s calculated CSP A age is under 21, his or her CSP A age is locked in through final adjudication
+and USCIS holds the application until the visa next becomes available based on the Final Action
+Dates chart.
+Example: Application Filed Based on Final Action Dates Chart
+On May 1, the Final Action Dates chart indicates a visa is available for the alien’ s immigrant
+preference category , priority date, and country of chargeability . The alien files an adjustment of status
+application in June, and then the visa becomes unavailable on July 1, based on the Final Action Dates
+chart. For this case, USCIS calculates the alien’ s CSP A age using May 1 as the visa availability date.
+If the alien’ s calculated CSP A age is under 21, his or her CSP A age is locked in through final
+adjudication and USCIS holds the application until the visa next becomes available.
+For both examples, if the alien’ s calculated CSP A age is 21 or older using the May 1 visa availability
+date, the alien has aged out and is not eligible to be considered a child when the visa next becomes
+available. In these cases, USCIS denies the adjustment of status application if the alien is not eligible
+to adjust status under another immigrant category .[42]
+Visa W as Available but Becomes Unavailable Before an Application is Filed
+If a visa initially becomes available based on the Final Action Dates chart and then becomes
+unavailable[43] before the alien files an adjustment application, his or her CSP A age is not locked in.
+When the visa next becomes available based on the Final Action Dates chart and the alien files an
+adjustment application, his or her CSP A age is calculated based on the new visa availability date. If
+the alien’ s CSP A age is over 21 at the time the visa next becomes available, the alien is no longer
+considered a child for immigration purposes under CSP A.
+Example: V isa Becomes Unavailable Before Filing
+On May 1, the Final Action Dates chart indicates a visa is available for the alien’ s immigrant
+preference category , priority date, and country of chargeability . On July 1, the visa becomes
+unavailable before the alien files an adjustment of status application. Because the alien has not yet
+filed an adjustment of status application, his or her CSP A age is not locked and will be calculated
+using the next visa availability date based on the Final Action Dates chart if the alien timely files an
+adjustment of status application.
+G. Sought to Acquire Requirement8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1483/2618
