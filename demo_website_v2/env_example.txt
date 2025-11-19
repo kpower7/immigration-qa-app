@@ -1,3 +1,0 @@
-MODAL_WEB_URL=https://kpower7--chat-with-pdf-vision-web.modal.run
-DEFAULT_OSS_MODEL=gpt-oss-120b
-OSS_DEV_STUB=0
