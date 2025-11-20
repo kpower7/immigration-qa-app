@@ -1,0 +1,33 @@
+Burden of Proof
+An of ficer generally determines that the applicant has met their burden of proof with respect to the
+health-related grounds of inadmissibility if all of the following criteria are met:
+A USCIS-designated civil surgeon (including a blanket designated civil surgeon) performed the
+immigration medical examination in accordance with U.S. Department of Health and Human
+Services regulations, the Technical Instructions for Civil Surgeons, and the instructions for Form
+I-693 ;
+The civil surgeon and the applicant both signed and properly completed the current edition of
+Form I-693 as of the date of the civil surgeon’ s signature;[26]
+The applicant submitted the Form I-693 to USCIS in accordance with the form instructions;[27]
+The Form I-693 establishes that the applicant does not have a Class A medical condition and
+has complied with the vaccination requirements, or is granted a waiver;[28] and
+USCIS confirms Form I-693 is valid when USCIS issues a decision on the underlying
+immigration benefit application.[29]
+In general, if any one of the above criteria is not met, then the applicant has not met their burden of
+proof required to establish that they are free of a medical condition that would render them
+inadmissible to the United States based on the health-related grounds. In such cases, the of ficer
+should follow standard operating procedures regarding issuance of a denial or an RFE or Notice of
+Intent to Deny (NOID) to address the deficiency .
+Special rules may apply to certain applicants who completed immigration medical examinations
+overseas, including certain nonimmigrant fiancé(e)s or spouses of U.S. citizens (K nonimmigrants),
+spouses of lawful permanent residents (V nonimmigrants), refugees, and asylee dependents. Such
+applicants generally do not need to repeat the full immigration medical examination in the United
+States for purposes of adjustment of status.[30]
+Footnotes
+[^ 1] The Technical Instructions for Panel Physicians may dif fer slightly from Centers for Disease
+Control's (CDC) Technical Instructions for Civil Surgeons. As long as the DS form is properly
+completed, the of ficer should accept the finding of the consular of ficer as correct.
+[^ 2] See Chapter 3, Applicability of Medical Examination and V accination Requirement [ 8 USCIS-PM
+B.3] for specific information on who is required to be examined and to what extent.
+[^ 3] Form I-693  can only be used for immigration benefits that are granted in the United States.
+[^ 4] See INA 232. See 8 CFR 232 .8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1905/2618

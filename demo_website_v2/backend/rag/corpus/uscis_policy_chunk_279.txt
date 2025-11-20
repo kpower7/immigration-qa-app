@@ -1,0 +1,34 @@
+may at its discretion separately bill the requestor for the unpaid fee instead of sending a NOIR. If a
+requestor receives such a NOIR, the requestor may respond with payment of the correct fee amount.
+USCIS does not ultimately revoke, rescind, or cancel the approval on the basis of an unfunded fee
+payment if the requestor cures the deficiency noted in the NOIR with payment of the correct fee
+amount. USCIS may revoke the approval with notice of an approved benefit request that required
+multiple fees if any single fee is unfunded. In such cases, any other fees paid for the approved benefit
+request are non-refundable.[21]
+B. Forms of Payment
+USCIS accepts dif ferent payment methods depending on whether the benefit requestor resides inside
+or outside of the United States or the nature of the request. USCIS does not accept all forms of
+payment. Details regarding acceptable forms and methods of payment can be found on the Filing
+Fees  webpage.
+Benefit requestors filing from inside the United States may pay their fees in one of the following ways,
+depending on the form that is being submitted:
+Online using a credit card, debit card, or bank withdrawal; or
+By mail with an Authorization for Credit Card Transactions (Form G-1450) , check, or money
+order .
+In limited circumstances, an individual may submit a benefit request directly at a USCIS field of fice. In
+such cases, the benefit requestor may submit their request and appropriate fee by mail to the field
+office using either a check or Form G-1450 .[22]
+Benefit requestors filing from outside the United States should go to the Forms  webpage to determine
+whether a form may be filed from outside of the United States. Depending on the form, the benefit
+requestor may pay fees online, by mail, or in person at a U.S. embassy or consulate.[23]
+1. Credit Card, Debit Card, or Pre-paid Card
+USCIS accepts payments by credit card, debit card, or pre-paid card for fees associated with benefit
+requests filed with one of the USCIS Lockbox facilities, the appropriate Service Center , and most
+USCIS field of fice locations.
+Applicants filing by mail must use Form G-1450  to pay with a credit card, debit card, or pre-paid card.
+USCIS uses the information provided on Form G-1450  to process a credit card, debit card, or pre-paid
+card payment through either the U.S. Department of Treasury Pay .gov Collection Control Panel (CCP)
+or the Trusted Collections Service (TCS).
+CCP  and TCS are web-based applications that allow federal government agencies to process
+payments by credit, debit, or prepaid cards. After USCIS processes Form G-1450, USCIS destroys the8/13/25, 3:54 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 219/2618

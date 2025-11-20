@@ -1,0 +1,32 @@
+If there is insuf ficient information to determine whether a breach occurred, or whether the cancellation
+requirements are met, USCIS may request additional information from the alien or the obligor .
+3. Special Considerations Related to Permanent Departure
+USCIS must approve the request to cancel the public charge bond if the alien has not breached the
+public charge bond and permanently departed the United States.[18]
+An alien is considered to have permanently departed if the alien has:
+Lost or abandoned LPR status, whether involuntarily by operation of law or voluntarily; and
+Is physically outside the United States.
+An alien must establish that both elements have been met before USCIS cancels the bond.
+For these purposes, an alien is deemed to have involuntarily lost LPR status by operation of law only if
+the alien lost their status:
+In removal proceedings with the entry of a final order of removal; or
+Through rescission of adjustment of status.
+If an alien loses their LPR status through operation of law , the alien would be required to provide
+evidence of the loss of status by submitting evidence of the of ficial determination of loss of LPR status
+before USCIS can cancel the bond.
+Generally , determining whether an alien has abandoned their LPR status voluntarily is fact specific
+and courts consider factors such as the length of an alien’ s absence from the United States, family
+and employment ties, property holdings, residence, and the alien’ s intent or actions.[19] Any alien may
+intentionally relinquish LPR status through their voluntary actions, such as by submitting a declaration
+of intent to abandon LPR status. Neither the Immigration and Nationality Act nor DHS regulations
+direct how aliens may formally inform the U.S. government of their abandoning their LPR status.
+To simplify the process, USCIS created the Record of Abandonment of Lawful Permanent Resident
+Status ( Form I-407 ) as a means by which an alien may formally record that they have abandoned LPR
+status. The purpose of the form is to create a record and to ensure that the alien acts voluntarily and
+willingly , and is informed of the right to a hearing before an immigration judge and has knowingly ,
+willingly , and af firmatively waived that right.
+An alien may demonstrate voluntary relinquishment of the LPR status for purposes of bond
+cancellation by showing proof that they submitted Form I-407 to the U.S. government from outside the
+United States.
+4. Decision8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 2048/2618

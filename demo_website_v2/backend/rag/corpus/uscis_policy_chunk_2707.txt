@@ -1,0 +1,32 @@
+authorization.[10] The filing of an adjustment application itself does not authorize employment.
+A. Definitions
+1. Unauthorized Employment
+Unauthorized employment is any service or labor performed for an employer within the United
+States by an alien who is not authorized by the INA  or USCIS to accept employment or who exceeds
+the scope or period of the alien’ s employment authorization.[11]
+Example: Unauthorized Employment Resulting in Adjustment Bar
+Date Event
+January 2, 2005 An alien is admitted as an H-1B nonimmigrant to work for an employer .
+April 1, 2006The alien takes a position with another employer who fails to file a
+nonimmigrant visa petition for the alien prior to employment.
+August 15, 2007The new employer files an employment-based immigrant visa petition
+for the alien that is approved. The alien concurrently files an adjustment
+application.
+September 15, 2007USCIS approves an Employment Authorization Document (EAD) for the
+alien based on the pending adjustment application.
+January 1, 2008The H-1B nonimmigrant’ s authorized stay expires, as indicated on the
+Arrival/Departure Record (Form I-94).
+In this example, the applicant left his authorized H-1B employer in April 2006. The applicant was not
+granted any H-1B status, EAD, or other USCIS employment authorization allowing him to work
+elsewhere until September 15, 2007. Therefore, the applicant’ s employment with the second employer
+was unauthorized from April 1, 2006, until September 15, 2007. The applicant is barred from adjusting
+status based on INA 245(c)(2)  and INA 245(c)(8)  for the unauthorized employment violations.[12]
+2. Authorized Employment
+For purposes of these bars, an applicant is authorized to work while a properly filed adjustment
+application is pending if:
+The applicant applied for and USCIS authorized employment;[13]
+USCIS granted the applicant employment authorization prior to filing an adjustment application
+and the authorization does not expire while the adjustment application is pending; or
+The applicant did not need to apply for work authorization, because such authorization is
+incident to the applicant’ s nonimmigrant status.[14]8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1581/2618

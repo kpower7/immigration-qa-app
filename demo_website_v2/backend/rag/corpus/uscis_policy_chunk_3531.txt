@@ -1,0 +1,34 @@
+--- Page 2056 ---
+
+In cases of attempted fraud, it may be dif ficult to establish the alien’ s intent to deceive because the
+fraud has not actually succeeded. However , establishing intent to deceive may be unnecessary; if
+evidence supports a finding of willful misrepresentation, which does not require intent to deceive,[11]
+then the alien is already considered inadmissible without any further determination of fraud. 
+D. Comparing Fraud and W illful Misrepresentation
+In practice, the distinction between fraud and willful misrepresentation is not greatly significant
+because either fraud or a willful misrepresentation alone is suf ficient to establish inadmissibility .
+The following table shows a comparison of the elements required for each ground:
+Comparing Fraud and Willful Misrepresentation
+ Elements Required for a Finding of …
+ScenarioWillful
+MisrepresentationFraud
+The alien procured, or sought to procure, a benefit
+under U.S. immigration laws.x x
+The alien made a false representation. x x
+The false representation was willfully made. x x
+The false representation was material. x x
+The false representation was made to a U.S.
+government of ficial.x x
+When making the false representation, the alien
+intended to deceive a U.S. government of ficial
+authorized to act upon the request (generally an
+immigration or consular of ficer).Not Applicable x
+The U.S. government of ficial believed and acted
+upon the false representation.Not Applicablex
+(Not applicable if fraud
+finding based on
+“seeking to procure”
+benefit)8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 2056/2618
+
+--- Page 2057 ---

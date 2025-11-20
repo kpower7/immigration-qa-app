@@ -1,0 +1,28 @@
+[^ 8] See INA 216(b)(1)(A)(ii) .
+[^ 9] See INA 216(b)(1)(B) . See 8 CFR 216.3 .
+[^ 10]  See INA 216(c)(2)(A)(i)  and INA 216(c)(4) . See 8 CFR 216.4(a)(6) .
+[^ 11] See INA 216(c)(2)(A)(ii) . See 8 CFR 216.4(b)(3)  and 8 CFR 216.5(d) .
+[^ 12]  See INA 216(c)(3)(C) . See 8 CFR 216.4(d)(2)  and 8 CFR 216.5(f) .
+[^ 13]  See Issuance of Notices to Appear (NT As) in Cases Involving Inadmissible and Deportable
+Aliens , PM-602-0187, issued February 28, 2025.
+[^ 14]  INA 246(b)  provides that a person whose adjustment of status has been rescinded is subject to
+revocation of naturalization under INA 340. For additional information, see V olume 12, Citizenship and
+Naturalization, Part L, Revocation of Naturalization [ 12 USCIS-PM L ].
+Chapter 4 - Ef fective Date of Rescission
+A rescission of lawful permanent resident (LPR) status is ef fective as of the date of the approval of the
+Application to Register Permanent Residence or Adjust Status ( Form I-485 ). In the case of a
+person who received a “rollback,” the residence period acquired by the rollback is likewise rescinded.
+A. Effect of Rescission on Other Benefits Derived from LPR Status
+Because rescission voids LPR status from the time of approval, any third parties who acquired rights
+based on the LPR status may have been ineligible for those rights when they were obtained.[1] Third
+parties include relatives for whom the person petitioned on the basis of their relationship to the LPR
+and relatives who obtained status as derivatives of the LPR.
+For example, if a spouse obtains LPR status through marriage to a person whose LPR status is later
+rescinded, the person is then considered not to have been an LPR at the time of petitioning for the
+spouse. The spouse was therefore not eligible for classification as the spouse of an LPR at the time of
+adjustment and was ineligible for adjustment of status under INA 245 on that basis. In such cases,
+USCIS issues the spouse a Notice of Intent to Rescind his or her LPR status.
+Footnote
+[^ 1] Rescission results in an LPR’ s status being voided “ab initio,” a Latin term used in legal decisions
+meaning “from the beginning.” See Matter of V aliyee (PDF) , 14 I&N Dec. 710 (BIA  1974).8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1883/2618

@@ -1,0 +1,34 @@
+Scenario USCIS Of ficer Action
+Administratively closes the Form
+I-751 if the military member is
+still in the military .
+Form I-751 is denied.Reopens or reactivates the Form I-751
+upon the military member ’s request at
+any time at no charge.
+Form I-751 is administratively closed.Reopens or reactivates the Form I-751
+upon the military member ’s request at
+any time at no charge.
+4. U.S. Federal Government W orkers
+The same policies and procedures that apply to military members also apply to non-military U.S.
+federal government workers currently working abroad on of ficial government orders. Evidence of
+government employment or orders may include:
+A copy of travel orders issued by the government;
+A copy of government identification (such as a PIV card or credential);
+Copies of pay stubs or W2s issued by the government;
+Copies of bank account statements showing pay from a U.S. government entity; and
+An APO, FPO, or DFO mailing address.
+E. CPRs with Pending Naturalization Applications
+Because of dif ferences in processing times between the Form I-751  and the Application for
+Naturalization ( Form N-400 ) and because CPRs are eligible to apply for naturalization (if otherwise
+eligible),[38] there may be instances when a CPR applies for naturalization while the CPR’ s Form I-
+751 is still pending. If the CPR has a pending Form N-400, USCIS adjudicates the Form I-751 before
+or at the same time as the Form N-400.
+In most cases, CPRs must have an approved Form I-751 before USCIS may naturalize them.
+However , there are limited circumstances in which the CPR is not required to file a Form I-751 before
+naturalizing.[39]
+F. Standard of Proof
+The standard of proof in establishing eligibility for removal of conditions is preponderance of the
+evidence. If the initial filing does not contain suf ficient evidence to demonstrate eligibility by a8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1377/2618
+
+--- Page 1378 ---

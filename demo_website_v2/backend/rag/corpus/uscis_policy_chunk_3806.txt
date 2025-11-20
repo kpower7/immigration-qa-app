@@ -1,0 +1,29 @@
+180 days from the date of the expiration of the previous EAD.
+The following combination of documents evidence the automatic extension of the previous EAD:
+The facially expired previous EAD stating Category A17, A18, or C26, as applicable;
+A Notice of Action (Form I-797C) for Form I-765 with Class requested in the same category as
+the expired EAD (either “(a)(17),” “(a)(18),” or “(c)(26),” as applicable), and showing that the
+renewal application was filed before the EAD expired; and
+An unexpired Arrival-Departure Record (Form I-94) reflecting H-4, E, or L  derivative status, as
+applicable.
+With this document combination, the expired EAD is considered unexpired and acceptable as
+evidence of identity and employment authorization for completion of Employment Eligibility V erification
+(Form I-9). Reverification of employment authorization is required at the end of the automatic
+extension period.
+Footnotes
+[^ 1] This policy does not apply to dependents (including spouses) of Employees of the Taipei
+Economic and Cultural Representative Of fice (TECRO) and Taipei Economic and Cultural Of fices
+(TECO), who continue to be required to apply for employment authorization per 8 CFR 274a.12(c)
+(2). Further , this policy does not apply to spouses of Long-T erm Investors in the Commonwealth of the
+Northern Mariana Islands (E-2 CNMI Investors) who are also required to apply for employment
+authorization per 8 CFR 274a.12(c)(12) . Additionally , as noted in 8 CFR 214.2(e)(23)(x)(B) , spouses of
+E-2 CNMI investors who obtained such status based upon a Foreign Retiree Investment Certificate
+are not eligible for work authorization.
+[^ 2] For additional information on Form I-94, see CBP’ s I-94 W ebsite: Travel Records for U.S. V isitors .
+[^ 3] This process of USCIS sending a supplemental notice is not available for Forms I-94 issued by
+CBP because USCIS cannot issue documents on behalf of CBP .
+[^ 4] See 8 CFR 274a.12 .
+[^ 5] The renewal application and the current EAD should reflect the same “Class requested,” either
+“(a)(17),” “(a)(18),” or “(c)(26).”
+Chapter 3 - Certain Employment-Based Immigrants in Compelling Circumstances8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 2220/2618

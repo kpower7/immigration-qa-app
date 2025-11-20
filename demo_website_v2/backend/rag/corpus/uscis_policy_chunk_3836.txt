@@ -1,0 +1,42 @@
+Scenario ExampleNew Application
+and Applicable
+Fee Required?
+[15]
+Requestor updated address timely but
+USCIS incorrectly entered address into data
+systems.Requestor enters “123
+Presidential Avenue” and
+USCIS erroneously enters
+“123 Residential Avenue.”No
+Requestor updated address timely but
+USCIS updated address after 48 hour
+document production hold and before
+undeliverable document was returned to
+USCIS as undeliverable.N/A No
+Certain USCIS systems errors. N/A No
+New Application and Fees Required
+Generally , if USCIS-issued secure identity documents were non-deliverable due to requestor error ,
+USCIS reissues the secure identity document only upon receiving a new application and fee.[16] The
+table below provides common (but not comprehensive) non-delivery scenarios
+involving requestor errors.
+Common Non-Delivery Scenarios Involving Requestor Errors
+Scenario ExampleNew Application and
+Applicable Fee
+Required? 
+Requestor submitted
+untimely address
+change.Requestor updated address well after
+the 10-day timeframe set by INA  265 and
+after USCIS mailed his or her secure
+identity document, but the
+secure identity document was not
+returned to USCIS as undeliverable.
+Requestor updated address after his or
+her secure identity document was
+returned to USCIS as undeliverable
+and destroyed.Yes, requestor must
+resubmit completed
+application with fee.8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 2236/2618
+
+--- Page 2237 ---

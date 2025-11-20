@@ -1,0 +1,34 @@
+Count Only V iolations After Most Recent Lawful Admission 
+When determining whether an applicant is eligible for the exemption, the law counts only status
+violations and unauthorized employment since the applicant’ s most recent lawful admission. Any such
+violations the applicant committed during previous periods of stay in the United States are not
+counted.[9]
+Therefore, regardless of how many days of immigration violations described in INA 245(c)(2) , INA
+245(c)(7) , or INA 245(c)(8)  an applicant commits, if he or she leaves and is readmitted lawfully (and is
+an eligible employment-based adjustment applicant), the applicant may qualify for an the exemption if
+the applicant’ s violations do not total more than 180 days in the aggregate since that most recent
+lawful admission.
+Example: Ef fect of Immigration V iolations Committed  During Previous Period of Stay
+Date Event
+January 1, 2015An alien is admitted as an F-1 nonimmigrant student authorized to attend
+a university full-time.
+March 1, 2015 The alien stops attending the university .
+December 1, 2015 The alien departs the United States.
+January 1, 2016 The alien is admitted for one year as a B-2 nonimmigrant visitor .
+June 1, 2016The alien files an adjustment application with an employer ’s immigrant
+petition seeking EB-2 classification.
+In this example, the alien violated her nonimmigrant status when she stopped attending the university .
+This violation resulted in the alien’ s failure to maintain lawful status from March 1 through November
+30, a total of 275 days of immigration violations. When the alien applies for adjustment on June 1,
+2016, however , she has committed no immigration violations since her most recent lawful admission. 
+Because the alien is an employment-based adjustment applicant and since her last lawful admission
+she has not exceeded the 180-day limit on immigration violations imposed by INA 245(k) , the alien
+qualifies for the exemption. Therefore, the alien is exempted from the INA 245(c)(2)  and INA 245(c)
+(8) bars that would otherwise have made her ineligible for adjustment. The 275 days of violations the
+alien committed during her prior stay in the United States are irrelevant and do not bar her from
+adjustment. 
+Effect of Parole
+An adjustment applicant who entered the United States on parole is not “lawfully admitted” because
+parole is not an admission.[10] Therefore, entry or reentry based on parole does not restart the clock
+for purposes of calculating status or work violations under the exemption. 8/13/25, 3:55 AM Policy Manual | USCIS
+https://www.uscis.gov/book/export/html/68600 1595/2618
